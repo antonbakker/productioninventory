@@ -10,7 +10,7 @@ import {
 } from "@aws-amplify/ui-react";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
-export function ProfilePage() {
+export function Profile() {
   const { user } = useAuthenticator();
 
   return (
