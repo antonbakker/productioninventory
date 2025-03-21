@@ -1,4 +1,14 @@
 // src/theme.ts
+
+import { defaultDarkModeOverride } from "@aws-amplify/ui-react";
+
+const theme = {
+  name: "default-theme",
+  overrides: [defaultDarkModeOverride],
+};
+export default theme;
+/*
+
 import { createTheme } from "@aws-amplify/ui-react";
 
 export const theme = createTheme({
@@ -31,3 +41,4 @@ export const theme = createTheme({
     },
   },
 });
+*/

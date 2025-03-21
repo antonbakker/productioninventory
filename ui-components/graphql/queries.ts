@@ -2,20 +2,290 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getLocation = /* GraphQL */ `
+  query GetLocation($id: ID!) {
+    getLocation(id: $id) {
+      createdAt
+      id
+      mutations {
+        nextToken
+        __typename
+      }
+      name
+      omsLocationId
+      owner
+      tamigoDepartmentId
+      updatedAt
+      userProfile {
+        createdAt
+        email
+        firstName
+        id
+        lastName
+        owner
+        updatedAt
+        __typename
+      }
+      userProfileId
+      __typename
+    }
+  }
+`;
+export const getMutationType = /* GraphQL */ `
+  query GetMutationType($id: ID!) {
+    getMutationType(id: $id) {
+      createdAt
+      id
+      mutations {
+        nextToken
+        __typename
+      }
+      name
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const getProduct = /* GraphQL */ `
+  query GetProduct($id: ID!) {
+    getProduct(id: $id) {
+      createdAt
+      density
+      id
+      mutations {
+        nextToken
+        __typename
+      }
+      name
+      omsproductId
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const getShift = /* GraphQL */ `
+  query GetShift($id: ID!) {
+    getShift(id: $id) {
+      createdAt
+      endTime
+      id
+      mutations {
+        nextToken
+        __typename
+      }
+      name
+      owner
+      startTime
+      tamigoShiftId
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const getStockMutation = /* GraphQL */ `
   query GetStockMutation($id: ID!) {
     getStockMutation(id: $id) {
       corrections
       createdAt
       date
-      deletedAt
       id
-      location
+      location {
+        createdAt
+        id
+        name
+        omsLocationId
+        owner
+        tamigoDepartmentId
+        updatedAt
+        userProfileId
+        __typename
+      }
+      locationId
+      mutationType {
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      mutationTypeId
       owner
-      shift
-      type
+      productId
+      products {
+        createdAt
+        density
+        id
+        name
+        omsproductId
+        owner
+        updatedAt
+        __typename
+      }
+      quantity
+      shift {
+        createdAt
+        endTime
+        id
+        name
+        owner
+        startTime
+        tamigoShiftId
+        updatedAt
+        __typename
+      }
+      shiftId
+      unit {
+        createdAt
+        default
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      unitId
       updatedAt
-      userId
+      userProfile {
+        createdAt
+        email
+        firstName
+        id
+        lastName
+        owner
+        updatedAt
+        __typename
+      }
+      userProfileId
+      __typename
+    }
+  }
+`;
+export const getUnit = /* GraphQL */ `
+  query GetUnit($id: ID!) {
+    getUnit(id: $id) {
+      createdAt
+      default
+      id
+      mutations {
+        nextToken
+        __typename
+      }
+      name
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const getUserProfile = /* GraphQL */ `
+  query GetUserProfile($id: ID!) {
+    getUserProfile(id: $id) {
+      createdAt
+      email
+      firstName
+      id
+      lastName
+      locations {
+        nextToken
+        __typename
+      }
+      mutations {
+        nextToken
+        __typename
+      }
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listLocations = /* GraphQL */ `
+  query ListLocations(
+    $filter: ModelLocationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLocations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        createdAt
+        id
+        name
+        omsLocationId
+        owner
+        tamigoDepartmentId
+        updatedAt
+        userProfileId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listMutationTypes = /* GraphQL */ `
+  query ListMutationTypes(
+    $filter: ModelMutationTypeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMutationTypes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listProducts = /* GraphQL */ `
+  query ListProducts(
+    $filter: ModelProductFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        createdAt
+        density
+        id
+        name
+        omsproductId
+        owner
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listShifts = /* GraphQL */ `
+  query ListShifts(
+    $filter: ModelShiftFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listShifts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        createdAt
+        endTime
+        id
+        name
+        owner
+        startTime
+        tamigoShiftId
+        updatedAt
+        __typename
+      }
+      nextToken
       __typename
     }
   }
@@ -23,30 +293,67 @@ export const getStockMutation = /* GraphQL */ `
 export const listStockMutations = /* GraphQL */ `
   query ListStockMutations(
     $filter: ModelStockMutationFilterInput
-    $id: ID
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listStockMutations(
-      filter: $filter
-      id: $id
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listStockMutations(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         corrections
         createdAt
         date
-        deletedAt
         id
-        location
+        locationId
+        mutationTypeId
         owner
-        shift
-        type
+        productId
+        quantity
+        shiftId
+        unitId
         updatedAt
-        userId
+        userProfileId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listUnits = /* GraphQL */ `
+  query ListUnits(
+    $filter: ModelUnitFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUnits(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        createdAt
+        default
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listUserProfiles = /* GraphQL */ `
+  query ListUserProfiles(
+    $filter: ModelUserProfileFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserProfiles(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        createdAt
+        email
+        firstName
+        id
+        lastName
+        owner
+        updatedAt
         __typename
       }
       nextToken

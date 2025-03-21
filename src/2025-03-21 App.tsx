@@ -6,8 +6,6 @@ import {
   Flex,
   useAuthenticator,
   View,
-  Menu,
-  MenuItem,
 } from "@aws-amplify/ui-react";
 import {
   BrowserRouter,
@@ -20,8 +18,6 @@ import { StockMutationIndex } from "./pages/StockMutationIndex.tsx";
 import { Profile } from "./pages/Profile.tsx";
 import { Home } from "./pages/Home.tsx";
 import { StockMutationCreate } from "./pages/StockMutationCreate.tsx";
-import { LocationList } from "./pages/LocationList.tsx";
-import { LocationCreate } from "./pages/LocationCreate.tsx";
 
 const Navigation = () => {
   const { user, signOut } = useAuthenticator();
@@ -30,13 +26,12 @@ const Navigation = () => {
     user?.signInUserSession?.getAccessToken().payload["cognito:groups"] || [];
 
   return (
-    // <View style={{ width: 300, flexDirection: "column" }}>
     <View style={{ width: 300, flexDirection: "column" }}>
       <Flex
         direction="column"
         padding="10px"
-        // color={"white"}
-        // backgroundColor={"darkgray"}
+        color={"white"}
+        backgroundColor={"darkgray"}
       >
         <Link to={"/"}>Home</Link>
 
@@ -45,7 +40,7 @@ const Navigation = () => {
           // userGroups.includes("admin") &&
           <>
             <Link to={"/users"}>Users</Link>
-            <Link to={"/location"}>Locations</Link>
+            <Link to={"/locations"}>Locations</Link>
             <Link to={"/units"}>Units</Link>
           </>
         }
@@ -55,7 +50,7 @@ const Navigation = () => {
           // (userGroups.includes("manager") || userGroups.includes("admin")) &&
           <>
             <Link to={"/shifts"}>Shifts</Link>
-            <Link to={"/products"}>Products</Link>
+            <Link to={"/products"}>Product</Link>
           </>
         }
 
@@ -86,7 +81,7 @@ function App() {
             <View
               style={{
                 height: "100%",
-                // backgroundColor: "lightgrey",
+                backgroundColor: "lightgrey",
               }}
             >
               <Navigation />
@@ -94,7 +89,7 @@ function App() {
             <View
               style={{
                 width: "100%",
-                // backgroundColor: "red",
+                backgroundColor: "red",
               }}
             >
               <Routes>
@@ -107,8 +102,6 @@ function App() {
                   path="/stock-mutations/create"
                   element={<StockMutationCreate />}
                 />
-                <Route path="/location" element={<LocationList />} />
-                <Route path="/location/create" element={<LocationCreate />} />
                 <Route path="/profile" element={<Profile />} />
                 {/*<Route path="/products" element={<ProductPage />} />*/}
                 {/*<Route path="/locations" element={<LocationPage />} />*/}

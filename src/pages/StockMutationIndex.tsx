@@ -6,24 +6,30 @@ import {
   Heading,
   Flex,
   Card,
-  SearchField, TableCell, TableHead, TableRow, TableBody,
+  SearchField,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableBody,
 } from "@aws-amplify/ui-react";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { StockMutationCreateForm } from "../../ui-components";
-import {Link} from "react-router-dom";
-import {Schema} from "../../amplify/data/resource.ts";
-import {generateClient} from "aws-amplify/data";
+import { Link } from "react-router-dom";
+import { Schema } from "../../amplify/data/resource.ts";
+import { generateClient } from "aws-amplify/data";
 const client = generateClient<Schema>();
 
 export function StockMutationIndex() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [mutations, setMutations] = useState<Array<Schema["StockMutation"]["type"]>>([]);
+  const [mutations, setMutations] = useState<
+    Array<Schema["StockMutation"]["type"]>
+  >([]);
 
   useEffect(() => {
     const load = async () => {
-      const {data} = await client.models.StockMutation.list()
+      const { data } = await client.models.StockMutation.list();
       setMutations(data);
-    }
+    };
     load();
   }, []);
   return (
@@ -31,7 +37,7 @@ export function StockMutationIndex() {
       <Flex direction="column" gap="medium">
         <Flex justifyContent="space-between" alignItems="center">
           <Heading level={2}>Stock Mutations</Heading>
-          <Link to={'/stock-mutations/create'}>Create New</Link>
+          <Link to={"/stock-mutations/create"}>Create New</Link>
         </Flex>
 
         <SearchField
@@ -51,17 +57,15 @@ export function StockMutationIndex() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {mutations.map(mutation => (<TableRow>
-              <TableCell>{mutation.date}</TableCell>
-              <TableCell>
-              {/*  TODO*/}
-              </TableCell>
-              <TableCell>{mutation.location}</TableCell>
-              <TableCell>{mutation.quantity}</TableCell>
-              <TableCell>
-              {/*  TODO*/}
-              </TableCell>
-            </TableRow>))}
+            {mutations.map((mutation) => (
+              <TableRow>
+                <TableCell>{mutation.date}</TableCell>
+                <TableCell>{/*  TODO*/}</TableCell>
+                <TableCell>{mutation.location}</TableCell>
+                <TableCell>{mutation.quantity}</TableCell>
+                <TableCell>{/*  TODO*/}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </Flex>
