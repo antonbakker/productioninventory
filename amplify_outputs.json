@@ -1,9 +1,9 @@
 {
   "auth": {
-    "user_pool_id": "eu-west-1_H4UEmTZ22",
-    "aws_region": "eu-west-1",
-    "user_pool_client_id": "5qocnebvm3eil98rsfdi9o23qm",
-    "identity_pool_id": "eu-west-1:c06b8e2b-1037-406f-8371-0ff8c69bfd98",
+    "user_pool_id": "eu-central-1_wUrZbmzrX",
+    "aws_region": "eu-central-1",
+    "user_pool_client_id": "4ij0k2m9imd22jq2oaa69flgc4",
+    "identity_pool_id": "eu-central-1:102f2371-52a1-4063-a592-c4707e6c573b",
     "mfa_methods": [],
     "standard_required_attributes": [
       "email"
@@ -26,9 +26,9 @@
     "unauthenticated_identities_enabled": true
   },
   "data": {
-    "url": "https://mmjgcfpwxjcodcjwob7s7bkqba.appsync-api.eu-west-1.amazonaws.com/graphql",
-    "aws_region": "eu-west-1",
-    "api_key": "da2-h5tsfkcfh5hhxbbq5xfmmqzvq4",
+    "url": "https://yiaseu6e3jgsdb3jnkzx4h36bm.appsync-api.eu-central-1.amazonaws.com/graphql",
+    "aws_region": "eu-central-1",
+    "api_key": "da2-c4dq6w3s2fbxhionune7fh7h6q",
     "default_authorization_type": "AMAZON_COGNITO_USER_POOLS",
     "authorization_types": [
       "API_KEY",
@@ -129,8 +129,10 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "apiKey",
+                    "provider": "userPools",
+                    "ownerField": "owner",
+                    "allow": "owner",
+                    "identityClaim": "cognito:username",
                     "operations": [
                       "create",
                       "update",
@@ -217,8 +219,10 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "apiKey",
+                    "provider": "userPools",
+                    "ownerField": "owner",
+                    "allow": "owner",
+                    "identityClaim": "cognito:username",
                     "operations": [
                       "create",
                       "update",
@@ -312,8 +316,10 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "apiKey",
+                    "provider": "userPools",
+                    "ownerField": "owner",
+                    "allow": "owner",
+                    "identityClaim": "cognito:username",
                     "operations": [
                       "create",
                       "update",
@@ -414,8 +420,10 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "apiKey",
+                    "provider": "userPools",
+                    "ownerField": "owner",
+                    "allow": "owner",
+                    "identityClaim": "cognito:username",
                     "operations": [
                       "create",
                       "update",
@@ -495,8 +503,10 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "apiKey",
+                    "provider": "userPools",
+                    "ownerField": "owner",
+                    "allow": "owner",
+                    "identityClaim": "cognito:username",
                     "operations": [
                       "create",
                       "update",
@@ -612,8 +622,10 @@
               "properties": {
                 "rules": [
                   {
-                    "allow": "public",
-                    "provider": "apiKey",
+                    "provider": "userPools",
+                    "ownerField": "owner",
+                    "allow": "owner",
+                    "identityClaim": "cognito:username",
                     "operations": [
                       "create",
                       "update",

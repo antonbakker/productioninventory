@@ -15,14 +15,14 @@ const schema = a.schema({
       locations: a.hasMany("Location", "userProfileId"),
       mutations: a.hasMany("StockMutation", "userProfileId"),
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization((allow) => [allow.owner()]),
   Unit: a
     .model({
       name: a.string().required(),
       default: a.boolean().default(false),
       mutations: a.hasMany("StockMutation", "unitId"),
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization((allow) => [allow.owner()]),
   Product: a
     .model({
       name: a.string().required(),
@@ -30,7 +30,7 @@ const schema = a.schema({
       mutations: a.hasMany("StockMutation", "productId"),
       omsproductId: a.id(),
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization((allow) => [allow.owner()]),
   Shift: a
     .model({
       name: a.string().required(),
@@ -39,13 +39,13 @@ const schema = a.schema({
       endTime: a.string().required(),
       tamigoShiftId: a.string().required(),
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization((allow) => [allow.owner()]),
   MutationType: a
     .model({
       name: a.string().required(),
       mutations: a.hasMany("StockMutation", "mutationTypeId"),
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization((allow) => [allow.owner()]),
   Location: a
     .model({
       name: a.string().required(),
@@ -55,7 +55,7 @@ const schema = a.schema({
       tamigoDepartmentId: a.id().required(),
       omsLocationId: a.id().required(),
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization((allow) => [allow.owner()]),
   StockMutation: a
     .model({
       locationId: a.id(),
