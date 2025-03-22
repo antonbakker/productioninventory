@@ -3,17 +3,12 @@ import {
   Card,
   Flex,
   Heading,
-  TextField,
   SearchField,
   Table,
   TableHead,
   TableRow,
   TableCell,
   TableBody,
-  View,
-  Button,
-  Image,
-  Text,
   useAuthenticator,
 } from "@aws-amplify/ui-react";
 import { useEffect, useState } from "react";
@@ -42,7 +37,7 @@ export function LocationList() {
       <Flex direction="column" gap="medium">
         <Flex justifyContent="space-between" alignItems="center">
           <Heading level={2}>Locations</Heading>
-          <Link to={"/stock-mutations/location/create"}>Create New</Link>
+          <Link to={"/location/create"}>Create New</Link>
         </Flex>
 
         <SearchField

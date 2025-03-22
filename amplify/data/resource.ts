@@ -7,13 +7,20 @@ specifies that any user authenticated via an API key can 'create', 'read',
 'update', and 'delete' any 'Todo' records.
 =========================================================================*/
 const schema = a.schema({
+  Dummy: a
+    .model({
+      comment: a.string(),
+    })
+    .authorization((allow) => [
+      allow.owner(),
+      allow.groupDefinedIn("admin"),
+      allow.authenticated().to(["create", "read"]),
+    ]),
   UserProfile: a
     .model({
       email: a.string().required(),
       firstName: a.string().required(),
       lastName: a.string().required(),
-      locations: a.hasMany("Location", "userProfileId"),
-      mutations: a.hasMany("StockMutation", "userProfileId"),
     })
     .authorization((allow) => [allow.owner()]),
   Unit: a
@@ -22,15 +29,23 @@ const schema = a.schema({
       default: a.boolean().default(false),
       mutations: a.hasMany("StockMutation", "unitId"),
     })
-    .authorization((allow) => [allow.owner()]),
+    .authorization((allow) => [
+      allow.owner(),
+      allow.groupDefinedIn("admin"),
+      allow.authenticated().to(["create", "read"]),
+    ]),
   Product: a
     .model({
       name: a.string().required(),
       density: a.float().required(),
       mutations: a.hasMany("StockMutation", "productId"),
-      omsproductId: a.id(),
+      omsProductId: a.id(),
     })
-    .authorization((allow) => [allow.owner()]),
+    .authorization((allow) => [
+      allow.owner(),
+      allow.groupDefinedIn("admin"),
+      allow.authenticated().to(["create", "read"]),
+    ]),
   Shift: a
     .model({
       name: a.string().required(),
@@ -39,23 +54,33 @@ const schema = a.schema({
       endTime: a.string().required(),
       tamigoShiftId: a.string().required(),
     })
-    .authorization((allow) => [allow.owner()]),
+    .authorization((allow) => [
+      allow.owner(),
+      allow.groupDefinedIn("admin"),
+      allow.authenticated().to(["create", "read"]),
+    ]),
   MutationType: a
     .model({
       name: a.string().required(),
       mutations: a.hasMany("StockMutation", "mutationTypeId"),
     })
-    .authorization((allow) => [allow.owner()]),
+    .authorization((allow) => [
+      allow.owner(),
+      allow.groupDefinedIn("admin"),
+      allow.authenticated().to(["create", "read"]),
+    ]),
   Location: a
     .model({
       name: a.string().required(),
       mutations: a.hasMany("StockMutation", "locationId"),
-      userProfileId: a.id(),
-      userProfile: a.belongsTo("UserProfile", "userProfileId"),
       tamigoDepartmentId: a.id().required(),
       omsLocationId: a.id().required(),
     })
-    .authorization((allow) => [allow.owner()]),
+    .authorization((allow) => [
+      allow.owner(),
+      allow.groupDefinedIn("admin"),
+      allow.authenticated().to(["create", "read"]),
+    ]),
   StockMutation: a
     .model({
       locationId: a.id(),
@@ -63,7 +88,6 @@ const schema = a.schema({
       mutationTypeId: a.id(),
       productId: a.id(),
       unitId: a.id(),
-      userProfileId: a.id(),
       location: a.belongsTo("Location", "locationId"),
       date: a.date().required(),
       shift: a.belongsTo("Shift", "shiftId"),
@@ -72,9 +96,12 @@ const schema = a.schema({
       products: a.belongsTo("Product", "productId"),
       quantity: a.float().required(),
       unit: a.belongsTo("Unit", "unitId"),
-      userProfile: a.belongsTo("UserProfile", "userProfileId"),
     })
-    .authorization((allow) => [allow.owner()]), // .authorization((allow) => [allow.publicApiKey()]),
+    .authorization((allow) => [
+      allow.owner(),
+      allow.groupDefinedIn("admin"),
+      allow.authenticated().to(["create", "read"]),
+    ]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
