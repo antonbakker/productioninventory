@@ -7,15 +7,6 @@ specifies that any user authenticated via an API key can 'create', 'read',
 'update', and 'delete' any 'Todo' records.
 =========================================================================*/
 const schema = a.schema({
-  Dummy: a
-    .model({
-      comment: a.string(),
-    })
-    .authorization((allow) => [
-      allow.owner(),
-      allow.groupDefinedIn("admin"),
-      allow.authenticated().to(["create", "read"]),
-    ]),
   UserProfile: a
     .model({
       email: a.string().required(),
@@ -23,15 +14,14 @@ const schema = a.schema({
       lastName: a.string().required(),
     })
     .authorization((allow) => [allow.owner()]),
-  Unit: a
+  Unit: a // error
     .model({
       name: a.string().required(),
-      default: a.boolean().default(false),
+      isDefault: a.boolean().default(false),
       mutations: a.hasMany("StockMutation", "unitId"),
     })
     .authorization((allow) => [
       allow.owner(),
-      allow.groupDefinedIn("admin"),
       allow.authenticated().to(["create", "read"]),
     ]),
   Product: a
@@ -43,7 +33,6 @@ const schema = a.schema({
     })
     .authorization((allow) => [
       allow.owner(),
-      allow.groupDefinedIn("admin"),
       allow.authenticated().to(["create", "read"]),
     ]),
   Shift: a
@@ -56,7 +45,6 @@ const schema = a.schema({
     })
     .authorization((allow) => [
       allow.owner(),
-      allow.groupDefinedIn("admin"),
       allow.authenticated().to(["create", "read"]),
     ]),
   MutationType: a
@@ -66,7 +54,6 @@ const schema = a.schema({
     })
     .authorization((allow) => [
       allow.owner(),
-      allow.groupDefinedIn("admin"),
       allow.authenticated().to(["create", "read"]),
     ]),
   Location: a
@@ -78,7 +65,6 @@ const schema = a.schema({
     })
     .authorization((allow) => [
       allow.owner(),
-      allow.groupDefinedIn("admin"),
       allow.authenticated().to(["create", "read"]),
     ]),
   StockMutation: a
@@ -99,7 +85,6 @@ const schema = a.schema({
     })
     .authorization((allow) => [
       allow.owner(),
-      allow.groupDefinedIn("admin"),
       allow.authenticated().to(["create", "read"]),
     ]),
 });

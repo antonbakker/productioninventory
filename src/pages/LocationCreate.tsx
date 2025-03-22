@@ -1,4 +1,19 @@
 // src/pages/LocationCreate.tsx
+
+import LocationCreateForm from "../../ui-components/LocationCreateForm";
+import { useNavigate } from "react-router-dom";
+import { Card } from "@aws-amplify/ui-react";
+
+export function LocationCreate() {
+  const navigate = useNavigate();
+  return (
+    <Card>
+      <LocationCreateForm onSuccess={() => navigate("/location")} />
+    </Card>
+  );
+}
+
+/*
 import {
   Card,
   Flex,
@@ -24,9 +39,10 @@ export function LocationCreate() {
     null
   );
 
+  
   return (
     <Card>
-      <Flex direction="column" gap="medium">
+      <Flex direction="column">
         <Heading level={2}>Location</Heading>
         <Flex direction="row" gap="large">
           <Card width="300px">
@@ -80,3 +96,4 @@ export function LocationCreate() {
     </Card>
   );
 }
+*/

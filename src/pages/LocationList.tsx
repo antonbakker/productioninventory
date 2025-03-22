@@ -1,4 +1,3 @@
-// src/pages/Locations.tsx
 import {
   Card,
   Flex,
@@ -9,28 +8,36 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  useAuthenticator,
 } from "@aws-amplify/ui-react";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Schema } from "../../amplify/data/resource.ts";
+import { Schema } from "../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-const client = generateClient<Schema>();
+const client = generateClient<Schema>({
+  authMode: "userPool",
+});
 
 export function LocationList() {
-  const { user } = useAuthenticator();
   const [searchQuery, setSearchQuery] = useState("");
   const [locations, setLocations] = useState<Array<Schema["Location"]["type"]>>(
     []
   );
 
   useEffect(() => {
-    const load = async () => {
-      const { data } = await client.models.Location.list();
+    const loadLocations = async () => {
+      const { data } = await client.models.Location.list({
+        limit: 100,
+        filter: {
+          name: {
+            contains: searchQuery,
+          },
+        },
+      });
       setLocations(data);
     };
-    load();
-  }, []);
+
+    loadLocations();
+  }, [searchQuery]);
 
   return (
     <Card>
@@ -55,7 +62,7 @@ export function LocationList() {
           </TableHead>
           <TableBody>
             {locations.map((location) => (
-              <TableRow>
+              <TableRow key={location.id}>
                 <TableCell>{location.name}</TableCell>
                 <TableCell>{location.tamigoDepartmentId}</TableCell>
                 <TableCell>{location.omsLocationId}</TableCell>

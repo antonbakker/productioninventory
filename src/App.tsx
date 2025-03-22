@@ -14,12 +14,21 @@ import {
   Routes,
   useNavigate,
 } from "react-router-dom";
-import { StockMutationIndex } from "./pages/StockMutationIndex.tsx";
-import { Profile } from "./pages/Profile.tsx";
 import { Home } from "./pages/Home.tsx";
-import { StockMutationCreate } from "./pages/StockMutationCreate.tsx";
 import { LocationList } from "./pages/LocationList.tsx";
 import { LocationCreate } from "./pages/LocationCreate.tsx";
+import { UnitList } from "./pages/UnitList.tsx";
+import { UnitCreate } from "./pages/UnitCreate.tsx";
+import { ProductList } from "./pages/ProductList.tsx";
+import { ProductCreate } from "./pages/ProductCreate.tsx";
+import { ShiftList } from "./pages/ShiftList.tsx";
+import { ShiftCreate } from "./pages/ShiftCreate.tsx";
+import { MutationTypeList } from "./pages/MutationTypeList.tsx";
+import { MutationTypeCreate } from "./pages/MutationTypeCreate.tsx";
+import { StockMutationIndex } from "./pages/StockMutationIndex.tsx";
+import { StockMutationList } from "./pages/StockMutationList.tsx";
+import { StockMutationCreate } from "./pages/StockMutationCreate.tsx";
+// import { LocationCreate } from "./pages/LocationCreate.tsx";
 
 const Navigation = () => {
   const { user, signOut } = useAuthenticator();
@@ -42,9 +51,9 @@ const Navigation = () => {
         {
           // userGroups.includes("admin") &&
           <>
-            <Link to={"/users"}>Users</Link>
-            <Link to={"/location"}>Locations</Link>
-            <Link to={"/units"}>Units</Link>
+            {/* <Link to={"/user"}>UserList</Link> */}
+            <Link to={"/location"}>Locaties</Link>
+            <Link to={"/unit"}>Eenheden</Link>
           </>
         }
 
@@ -52,14 +61,14 @@ const Navigation = () => {
         {
           // (userGroups.includes("manager") || userGroups.includes("admin")) &&
           <>
-            <Link to={"/shifts"}>Shifts</Link>
-            <Link to={"/products"}>Products</Link>
+            <Link to={"/shift"}>Shifts</Link>
+            <Link to={"/product"}>Producten</Link>
           </>
         }
 
         {/* All authenticated users */}
-        <Link to={"/stock-mutations"}>Stock Mutations</Link>
-        <Link to={"/profile"}>Profile</Link>
+        <Link to={"/stock-mutation"}>Mutaties</Link>
+        {/* <Link to={"/profile"}>Profielen</Link> */}
 
         <Divider />
         <Button onClick={signOut}>Sign Out</Button>
@@ -97,22 +106,35 @@ function App() {
             >
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/unit" element={<UnitList />} />
+                <Route path="/mutation-type" element={<MutationTypeList />} />
+                <Route path="/shift" element={<ShiftList />} />
+                <Route path="/unit-create" element={<UnitCreate />} />
                 <Route
-                  path="/stock-mutations"
-                  element={<StockMutationIndex />}
+                  path="/mutation-type/create"
+                  element={<MutationTypeCreate />}
                 />
-                <Route
-                  path="/stock-mutations/create"
-                  element={<StockMutationCreate />}
-                />
+                <Route path="/shift/create" element={<ShiftCreate />} />
                 <Route path="/location" element={<LocationList />} />
                 <Route path="/location/create" element={<LocationCreate />} />
-                <Route path="/profile" element={<Profile />} />
-                {/*<Route path="/products" element={<ProductPage />} />*/}
-                {/*<Route path="/locations" element={<LocationPage />} />*/}
-                {/*<Route path="/units" element={<UnitPage />} />*/}
-                {/*<Route path="/shifts" element={<ShiftPage />} />*/}
-                {/*<Route path="/users" element={<UserPage />} />*/}
+                <Route path="/product" element={<ProductList />} />
+                <Route path="/product/create" element={<ProductCreate />} />
+                <Route
+                  path="/stock-mutation/index"
+                  element={<StockMutationList />} //<<
+                />
+                <Route
+                  path="/stock-mutation"
+                  element={<StockMutationIndex />} //<<
+                />
+                <Route
+                  path="/stock-mutation/create"
+                  element={<StockMutationCreate />}
+                />
+                {/*<Route
+                  path="/user-profile"
+                  element={<UserProfileList />}
+                />*/}
               </Routes>
             </View>
           </View>
