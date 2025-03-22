@@ -6,8 +6,6 @@ import {
   Flex,
   useAuthenticator,
   View,
-  Menu,
-  MenuItem,
 } from "@aws-amplify/ui-react";
 import {
   BrowserRouter,
