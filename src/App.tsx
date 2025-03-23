@@ -1,9 +1,11 @@
 // src/App.tsx
 import {
   Authenticator,
+  Card,
   Button,
   Divider,
   Flex,
+  Grid,
   useAuthenticator,
   View,
 } from "@aws-amplify/ui-react";
@@ -14,6 +16,15 @@ import {
   Routes,
   useNavigate,
 } from "react-router-dom";
+import { ImHome } from "react-icons/im";
+import { ImLocation } from "react-icons/im";
+import { ImLab } from "react-icons/im";
+import { ImClock } from "react-icons/im";
+import { ImEnlarge } from "react-icons/im";
+import { ImCheckboxChecked } from "react-icons/im";
+import { ImLock } from "react-icons/im";
+import { ImLoop } from "react-icons/im";
+import { ImKey } from "react-icons/im";
 import { Home } from "./pages/Home.tsx";
 import { LocationList } from "./pages/LocationList.tsx";
 import { LocationCreate } from "./pages/LocationCreate.tsx";
@@ -24,56 +35,182 @@ import { ProductCreate } from "./pages/ProductCreate.tsx";
 import { ShiftList } from "./pages/ShiftList.tsx";
 import { ShiftCreate } from "./pages/ShiftCreate.tsx";
 import { MutationTypeList } from "./pages/MutationTypeList.tsx";
-import { MutationTypeCreate } from "./pages/MutationTypeCreate.tsx";
+import { MutationTypeCreate } from "./pages/MutationTypeCreste.tsx";
 import { StockMutationIndex } from "./pages/StockMutationIndex.tsx";
 import { StockMutationList } from "./pages/StockMutationList.tsx";
 import { StockMutationCreate } from "./pages/StockMutationCreate.tsx";
 // import { LocationCreate } from "./pages/LocationCreate.tsx";
 
 const Navigation = () => {
-  const { user, signOut } = useAuthenticator();
   const navigate = useNavigate();
-  const userGroups =
-    user?.signInUserSession?.getAccessToken().payload["cognito:groups"] || [];
+  const { user, signOut } = useAuthenticator();
+  // const navigate = useNavigate();
+  // const userGroups =
+  //   user?.signInUserSession?.getAccessToken().payload["cognito:groups"] || [];
 
   return (
     // <View style={{ width: 300, flexDirection: "column" }}>
-    <View style={{ width: 300, flexDirection: "column" }}>
-      <Flex
-        direction="column"
-        padding="10px"
-        // color={"white"}
-        // backgroundColor={"darkgray"}
-      >
-        <Link to={"/"}>Home</Link>
+    <Grid
+      columnGap="0.5rem"
+      rowGap="0.5rem"
+      templateColumns="1fr 1fr"
+      templateRows="0.25fr 1fr 0.25fr"
+    >
+      <Card columnStart="1" columnEnd="-1" rowStart="1" rowEnd="1">
+        <Button variation="primary" colorTheme="error" onClick={signOut}>
+          <ImLock />
+        </Button>
+      </Card>
+      <Card columnStart="1" columnEnd="1" rowStart="2" rowEnd="-1">
+        <View
+          style={{
+            // width: 300,
+            flexDirection: "column",
+            color: "white",
+            backgroundColor: "#222222",
+          }}
+        >
+          <Flex
+            direction="column"
+            padding="10px"
+            // color={"white"}
+            // backgroundColor={"darkgray"}
+          >
+            <Flex direction="row" gap="small">
+              <Button
+                variation="link"
+                style={{ color: "white", backgroundColor: "transparent" }}
+                loadingText=""
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                <Flex direction="row" gap="small">
+                  <ImHome />
+                  Home
+                </Flex>
+              </Button>
+            </Flex>
 
-        {/* Admin only pages */}
-        {
-          // userGroups.includes("admin") &&
-          <>
-            {/* <Link to={"/user"}>UserList</Link> */}
-            <Link to={"/location"}>Locaties</Link>
-            <Link to={"/unit"}>Eenheden</Link>
-          </>
-        }
+            {/* Admin only pages */}
+            {
+              // userGroups.includes("admin") &&
+              <>
+                {/* <Link to={"/user"}>UserList</Link> */}
+                <Flex direction="row" gap="small">
+                  <Button
+                    variation="link"
+                    style={{ color: "white", backgroundColor: "transparent" }}
+                    loadingText=""
+                    onClick={() => {
+                      navigate("/location");
+                    }}
+                  >
+                    <Flex direction="row" gap="small">
+                      <ImLocation />
+                      Locaties
+                    </Flex>
+                  </Button>
+                </Flex>
 
-        {/* Manager and Admin pages */}
-        {
-          // (userGroups.includes("manager") || userGroups.includes("admin")) &&
-          <>
-            <Link to={"/shift"}>Shifts</Link>
-            <Link to={"/product"}>Producten</Link>
-          </>
-        }
+                <Flex direction="row" gap="small">
+                  <Button
+                    variation="link"
+                    style={{ color: "white", backgroundColor: "transparent" }}
+                    loadingText=""
+                    onClick={() => {
+                      navigate("/unit");
+                    }}
+                  >
+                    <Flex direction="row" gap="small">
+                      <ImEnlarge />
+                      Eenheden
+                    </Flex>
+                  </Button>
+                </Flex>
 
-        {/* All authenticated users */}
-        <Link to={"/stock-mutation"}>Mutaties</Link>
-        {/* <Link to={"/profile"}>Profielen</Link> */}
+                <Flex direction="row" gap="small">
+                  <Button
+                    variation="link"
+                    style={{ color: "white", backgroundColor: "transparent" }}
+                    loadingText=""
+                    onClick={() => {
+                      navigate("/mutation-type");
+                    }}
+                  >
+                    <Flex direction="row" gap="small">
+                      <ImLoop />
+                      Mutatietypes
+                    </Flex>
+                  </Button>
+                </Flex>
+              </>
+            }
+            {/* Manager and Admin pages */}
+            {
+              // (userGroups.includes("manager") || userGroups.includes("admin")) &&
+              <>
+                <Flex direction="row" gap="small">
+                  <Button
+                    variation="link"
+                    style={{ color: "white", backgroundColor: "transparent" }}
+                    loadingText=""
+                    onClick={() => {
+                      navigate("/shift");
+                    }}
+                  >
+                    <Flex direction="row" gap="small">
+                      <ImClock />
+                      Shifts
+                    </Flex>
+                  </Button>
+                </Flex>
 
-        <Divider />
-        <Button onClick={signOut}>Sign Out</Button>
-      </Flex>
-    </View>
+                <Flex direction="row" gap="small">
+                  <Button
+                    variation="link"
+                    style={{ color: "white", backgroundColor: "transparent" }}
+                    loadingText=""
+                    onClick={() => {
+                      navigate("/product");
+                    }}
+                  >
+                    <Flex direction="row" gap="small">
+                      <ImLab />
+                      Producten
+                    </Flex>
+                  </Button>
+                </Flex>
+              </>
+            }
+
+            {/* All authenticated users */}
+            <Flex direction="row" gap="small">
+              <Button
+                variation="link"
+                style={{ color: "white", backgroundColor: "transparent" }}
+                loadingText=""
+                onClick={() => {
+                  navigate("/stock-mutation");
+                }}
+              >
+                <Flex direction="row" gap="small">
+                  <ImCheckboxChecked />
+                  Mutaties
+                </Flex>
+              </Button>
+            </Flex>
+            {/* <Link to={"/profile"}>Profielen</Link> */}
+          </Flex>
+        </View>
+      </Card>
+      <Card columnStart="2" columnEnd="-1" rowStart="2" rowEnd="-1">
+        {/* Main */}
+      </Card>
+      <Card columnStart="2" columnEnd="-1" rowStart="-1" rowEnd="-1">
+        {/* Footer */}
+      </Card>
+    </Grid>
   );
 };
 
@@ -107,13 +244,13 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/unit" element={<UnitList />} />
+                <Route path="/unit/create" element={<UnitCreate />} />
                 <Route path="/mutation-type" element={<MutationTypeList />} />
-                <Route path="/shift" element={<ShiftList />} />
-                <Route path="/unit-create" element={<UnitCreate />} />
                 <Route
                   path="/mutation-type/create"
                   element={<MutationTypeCreate />}
                 />
+                <Route path="/shift" element={<ShiftList />} />
                 <Route path="/shift/create" element={<ShiftCreate />} />
                 <Route path="/location" element={<LocationList />} />
                 <Route path="/location/create" element={<LocationCreate />} />
@@ -121,11 +258,11 @@ function App() {
                 <Route path="/product/create" element={<ProductCreate />} />
                 <Route
                   path="/stock-mutation/index"
-                  element={<StockMutationList />} //<<
+                  element={<StockMutationIndex />} //<<
                 />
                 <Route
                   path="/stock-mutation"
-                  element={<StockMutationIndex />} //<<
+                  element={<StockMutationList />} //<<
                 />
                 <Route
                   path="/stock-mutation/create"

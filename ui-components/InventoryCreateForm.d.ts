@@ -15,28 +15,28 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type StockMutationCreateFormInputValues = {
+export declare type InventoryCreateFormInputValues = {
     date?: string;
     quantity?: number;
 };
-export declare type StockMutationCreateFormValidationValues = {
+export declare type InventoryCreateFormValidationValues = {
     date?: ValidationFunction<string>;
     quantity?: ValidationFunction<number>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type StockMutationCreateFormOverridesProps = {
-    StockMutationCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
+export declare type InventoryCreateFormOverridesProps = {
+    InventoryCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     date?: PrimitiveOverrideProps<TextFieldProps>;
     quantity?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type StockMutationCreateFormProps = React.PropsWithChildren<{
-    overrides?: StockMutationCreateFormOverridesProps | undefined | null;
+export declare type InventoryCreateFormProps = React.PropsWithChildren<{
+    overrides?: InventoryCreateFormOverridesProps | undefined | null;
 } & {
     clearOnSuccess?: boolean;
-    onSubmit?: (fields: StockMutationCreateFormInputValues) => StockMutationCreateFormInputValues;
-    onSuccess?: (fields: StockMutationCreateFormInputValues) => void;
-    onError?: (fields: StockMutationCreateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: StockMutationCreateFormInputValues) => StockMutationCreateFormInputValues;
-    onValidate?: StockMutationCreateFormValidationValues;
+    onSubmit?: (fields: InventoryCreateFormInputValues) => InventoryCreateFormInputValues;
+    onSuccess?: (fields: InventoryCreateFormInputValues) => void;
+    onError?: (fields: InventoryCreateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: InventoryCreateFormInputValues) => InventoryCreateFormInputValues;
+    onValidate?: InventoryCreateFormValidationValues;
 } & React.CSSProperties>;
-export default function StockMutationCreateForm(props: StockMutationCreateFormProps): React.ReactElement;
+export default function InventoryCreateForm(props: InventoryCreateFormProps): React.ReactElement;

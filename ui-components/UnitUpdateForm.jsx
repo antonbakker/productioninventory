@@ -27,9 +27,11 @@ export default function UnitUpdateForm(props) {
   } = props;
   const initialValues = {
     name: "",
+    factor: "",
     isDefault: false,
   };
   const [name, setName] = React.useState(initialValues.name);
+  const [factor, setFactor] = React.useState(initialValues.factor);
   const [isDefault, setIsDefault] = React.useState(initialValues.isDefault);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -37,6 +39,7 @@ export default function UnitUpdateForm(props) {
       ? { ...initialValues, ...unitRecord }
       : initialValues;
     setName(cleanValues.name);
+    setFactor(cleanValues.factor);
     setIsDefault(cleanValues.isDefault);
     setErrors({});
   };
@@ -58,6 +61,7 @@ export default function UnitUpdateForm(props) {
   React.useEffect(resetStateValues, [unitRecord]);
   const validations = {
     name: [{ type: "Required" }],
+    factor: [],
     isDefault: [],
   };
   const runValidationTasks = async (
@@ -87,6 +91,7 @@ export default function UnitUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
+          factor: factor ?? null,
           isDefault: isDefault ?? null,
         };
         const validationResponses = await Promise.all(
@@ -149,6 +154,7 @@ export default function UnitUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
+              factor,
               isDefault,
             };
             const result = onChange(modelFields);
@@ -164,6 +170,36 @@ export default function UnitUpdateForm(props) {
         hasError={errors.name?.hasError}
         {...getOverrideProps(overrides, "name")}
       ></TextField>
+      <TextField
+        label="Factor"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={factor}
+        onChange={(e) => {
+          let value = isNaN(parseFloat(e.target.value))
+            ? e.target.value
+            : parseFloat(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              name,
+              factor: value,
+              isDefault,
+            };
+            const result = onChange(modelFields);
+            value = result?.factor ?? value;
+          }
+          if (errors.factor?.hasError) {
+            runValidationTasks("factor", value);
+          }
+          setFactor(value);
+        }}
+        onBlur={() => runValidationTasks("factor", factor)}
+        errorMessage={errors.factor?.errorMessage}
+        hasError={errors.factor?.hasError}
+        {...getOverrideProps(overrides, "factor")}
+      ></TextField>
       <SwitchField
         label="Is default"
         defaultChecked={false}
@@ -174,6 +210,7 @@ export default function UnitUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              factor,
               isDefault: value,
             };
             const result = onChange(modelFields);

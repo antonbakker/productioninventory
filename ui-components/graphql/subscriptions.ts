@@ -2,6 +2,77 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateInventory = /* GraphQL */ `
+  subscription OnCreateInventory(
+    $filter: ModelSubscriptionInventoryFilterInput
+    $owner: String
+  ) {
+    onCreateInventory(filter: $filter, owner: $owner) {
+      createdAt
+      date
+      id
+      location {
+        createdAt
+        id
+        name
+        omsLocationId
+        owner
+        tamigoDepartmentId
+        updatedAt
+        __typename
+      }
+      locationId
+      mutationType {
+        createdAt
+        description
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      mutationTypeId
+      owner
+      product {
+        createdAt
+        density
+        id
+        name
+        omsProductId
+        owner
+        updatedAt
+        __typename
+      }
+      productId
+      quantity
+      shift {
+        createdAt
+        endTime
+        id
+        name
+        owner
+        startTime
+        tamigoShiftId
+        updatedAt
+        __typename
+      }
+      shiftId
+      unit {
+        createdAt
+        factor
+        id
+        isDefault
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      unitId
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onCreateLocation = /* GraphQL */ `
   subscription OnCreateLocation(
     $filter: ModelSubscriptionLocationFilterInput
@@ -10,6 +81,10 @@ export const onCreateLocation = /* GraphQL */ `
     onCreateLocation(filter: $filter, owner: $owner) {
       createdAt
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -30,7 +105,12 @@ export const onCreateMutationType = /* GraphQL */ `
   ) {
     onCreateMutationType(filter: $filter, owner: $owner) {
       createdAt
+      description
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -51,6 +131,10 @@ export const onCreateProduct = /* GraphQL */ `
       createdAt
       density
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -72,6 +156,10 @@ export const onCreateShift = /* GraphQL */ `
       createdAt
       endTime
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -91,7 +179,6 @@ export const onCreateStockMutation = /* GraphQL */ `
     $owner: String
   ) {
     onCreateStockMutation(filter: $filter, owner: $owner) {
-      corrections
       createdAt
       date
       id
@@ -108,6 +195,7 @@ export const onCreateStockMutation = /* GraphQL */ `
       locationId
       mutationType {
         createdAt
+        description
         id
         name
         owner
@@ -116,8 +204,7 @@ export const onCreateStockMutation = /* GraphQL */ `
       }
       mutationTypeId
       owner
-      productId
-      products {
+      product {
         createdAt
         density
         id
@@ -127,6 +214,7 @@ export const onCreateStockMutation = /* GraphQL */ `
         updatedAt
         __typename
       }
+      productId
       quantity
       shift {
         createdAt
@@ -142,6 +230,7 @@ export const onCreateStockMutation = /* GraphQL */ `
       shiftId
       unit {
         createdAt
+        factor
         id
         isDefault
         name
@@ -162,7 +251,12 @@ export const onCreateUnit = /* GraphQL */ `
   ) {
     onCreateUnit(filter: $filter, owner: $owner) {
       createdAt
+      factor
       id
+      inventory {
+        nextToken
+        __typename
+      }
       isDefault
       mutations {
         nextToken
@@ -192,6 +286,77 @@ export const onCreateUserProfile = /* GraphQL */ `
     }
   }
 `;
+export const onDeleteInventory = /* GraphQL */ `
+  subscription OnDeleteInventory(
+    $filter: ModelSubscriptionInventoryFilterInput
+    $owner: String
+  ) {
+    onDeleteInventory(filter: $filter, owner: $owner) {
+      createdAt
+      date
+      id
+      location {
+        createdAt
+        id
+        name
+        omsLocationId
+        owner
+        tamigoDepartmentId
+        updatedAt
+        __typename
+      }
+      locationId
+      mutationType {
+        createdAt
+        description
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      mutationTypeId
+      owner
+      product {
+        createdAt
+        density
+        id
+        name
+        omsProductId
+        owner
+        updatedAt
+        __typename
+      }
+      productId
+      quantity
+      shift {
+        createdAt
+        endTime
+        id
+        name
+        owner
+        startTime
+        tamigoShiftId
+        updatedAt
+        __typename
+      }
+      shiftId
+      unit {
+        createdAt
+        factor
+        id
+        isDefault
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      unitId
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onDeleteLocation = /* GraphQL */ `
   subscription OnDeleteLocation(
     $filter: ModelSubscriptionLocationFilterInput
@@ -200,6 +365,10 @@ export const onDeleteLocation = /* GraphQL */ `
     onDeleteLocation(filter: $filter, owner: $owner) {
       createdAt
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -220,7 +389,12 @@ export const onDeleteMutationType = /* GraphQL */ `
   ) {
     onDeleteMutationType(filter: $filter, owner: $owner) {
       createdAt
+      description
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -241,6 +415,10 @@ export const onDeleteProduct = /* GraphQL */ `
       createdAt
       density
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -262,6 +440,10 @@ export const onDeleteShift = /* GraphQL */ `
       createdAt
       endTime
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -281,7 +463,6 @@ export const onDeleteStockMutation = /* GraphQL */ `
     $owner: String
   ) {
     onDeleteStockMutation(filter: $filter, owner: $owner) {
-      corrections
       createdAt
       date
       id
@@ -298,6 +479,7 @@ export const onDeleteStockMutation = /* GraphQL */ `
       locationId
       mutationType {
         createdAt
+        description
         id
         name
         owner
@@ -306,8 +488,7 @@ export const onDeleteStockMutation = /* GraphQL */ `
       }
       mutationTypeId
       owner
-      productId
-      products {
+      product {
         createdAt
         density
         id
@@ -317,6 +498,7 @@ export const onDeleteStockMutation = /* GraphQL */ `
         updatedAt
         __typename
       }
+      productId
       quantity
       shift {
         createdAt
@@ -332,6 +514,7 @@ export const onDeleteStockMutation = /* GraphQL */ `
       shiftId
       unit {
         createdAt
+        factor
         id
         isDefault
         name
@@ -352,7 +535,12 @@ export const onDeleteUnit = /* GraphQL */ `
   ) {
     onDeleteUnit(filter: $filter, owner: $owner) {
       createdAt
+      factor
       id
+      inventory {
+        nextToken
+        __typename
+      }
       isDefault
       mutations {
         nextToken
@@ -382,6 +570,77 @@ export const onDeleteUserProfile = /* GraphQL */ `
     }
   }
 `;
+export const onUpdateInventory = /* GraphQL */ `
+  subscription OnUpdateInventory(
+    $filter: ModelSubscriptionInventoryFilterInput
+    $owner: String
+  ) {
+    onUpdateInventory(filter: $filter, owner: $owner) {
+      createdAt
+      date
+      id
+      location {
+        createdAt
+        id
+        name
+        omsLocationId
+        owner
+        tamigoDepartmentId
+        updatedAt
+        __typename
+      }
+      locationId
+      mutationType {
+        createdAt
+        description
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      mutationTypeId
+      owner
+      product {
+        createdAt
+        density
+        id
+        name
+        omsProductId
+        owner
+        updatedAt
+        __typename
+      }
+      productId
+      quantity
+      shift {
+        createdAt
+        endTime
+        id
+        name
+        owner
+        startTime
+        tamigoShiftId
+        updatedAt
+        __typename
+      }
+      shiftId
+      unit {
+        createdAt
+        factor
+        id
+        isDefault
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      unitId
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onUpdateLocation = /* GraphQL */ `
   subscription OnUpdateLocation(
     $filter: ModelSubscriptionLocationFilterInput
@@ -390,6 +649,10 @@ export const onUpdateLocation = /* GraphQL */ `
     onUpdateLocation(filter: $filter, owner: $owner) {
       createdAt
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -410,7 +673,12 @@ export const onUpdateMutationType = /* GraphQL */ `
   ) {
     onUpdateMutationType(filter: $filter, owner: $owner) {
       createdAt
+      description
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -431,6 +699,10 @@ export const onUpdateProduct = /* GraphQL */ `
       createdAt
       density
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -452,6 +724,10 @@ export const onUpdateShift = /* GraphQL */ `
       createdAt
       endTime
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -471,7 +747,6 @@ export const onUpdateStockMutation = /* GraphQL */ `
     $owner: String
   ) {
     onUpdateStockMutation(filter: $filter, owner: $owner) {
-      corrections
       createdAt
       date
       id
@@ -488,6 +763,7 @@ export const onUpdateStockMutation = /* GraphQL */ `
       locationId
       mutationType {
         createdAt
+        description
         id
         name
         owner
@@ -496,8 +772,7 @@ export const onUpdateStockMutation = /* GraphQL */ `
       }
       mutationTypeId
       owner
-      productId
-      products {
+      product {
         createdAt
         density
         id
@@ -507,6 +782,7 @@ export const onUpdateStockMutation = /* GraphQL */ `
         updatedAt
         __typename
       }
+      productId
       quantity
       shift {
         createdAt
@@ -522,6 +798,7 @@ export const onUpdateStockMutation = /* GraphQL */ `
       shiftId
       unit {
         createdAt
+        factor
         id
         isDefault
         name
@@ -542,7 +819,12 @@ export const onUpdateUnit = /* GraphQL */ `
   ) {
     onUpdateUnit(filter: $filter, owner: $owner) {
       createdAt
+      factor
       id
+      inventory {
+        nextToken
+        __typename
+      }
       isDefault
       mutations {
         nextToken

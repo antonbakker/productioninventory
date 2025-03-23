@@ -49,6 +49,8 @@ export function LocationList() {
 
         <SearchField
           label="Search"
+          hasSearchButton={false}
+          hasSearchIcon={true}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 

@@ -17,16 +17,19 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type UnitCreateFormInputValues = {
     name?: string;
+    factor?: number;
     isDefault?: boolean;
 };
 export declare type UnitCreateFormValidationValues = {
     name?: ValidationFunction<string>;
+    factor?: ValidationFunction<number>;
     isDefault?: ValidationFunction<boolean>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type UnitCreateFormOverridesProps = {
     UnitCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
+    factor?: PrimitiveOverrideProps<TextFieldProps>;
     isDefault?: PrimitiveOverrideProps<SwitchFieldProps>;
 } & EscapeHatchProps;
 export declare type UnitCreateFormProps = React.PropsWithChildren<{

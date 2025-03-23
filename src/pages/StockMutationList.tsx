@@ -23,23 +23,79 @@ export function StockMutationList() {
   const [mutations, setMutations] = useState<
     Array<Schema["StockMutation"]["type"]>
   >([]);
+  const [shifts, setShifts] = useState<Array<Schema["Shift"]["type"]>>([]);
+  const [products, setProducts] = useState<Array<Schema["Product"]["type"]>>(
+    []
+  );
+  const [units, setUnits] = useState<Array<Schema["Unit"]["type"]>>([]);
+  const [locations, setLocations] = useState<Array<Schema["Location"]["type"]>>(
+    []
+  );
+  const [mutationTypes, setMutationTypes] = useState<
+    Array<Schema["MutationType"]["type"]>
+  >([]);
 
   useEffect(() => {
-    const load = async () => {
-      const { data } = await client.models.StockMutation.list();
+    const loadLocations = async () => {
+      const { data } = await client.models.Location.list({
+        limit: 100,
+      });
+      setLocations(data);
+    };
+    const loadShifts = async () => {
+      const { data } = await client.models.Shift.list({
+        limit: 100,
+      });
+      setShifts(data);
+    };
+    const loadMutationTypes = async () => {
+      const { data } = await client.models.MutationType.list({
+        limit: 100,
+      });
+      setMutationTypes(data);
+    };
+    const loadProducts = async () => {
+      const { data } = await client.models.Product.list({
+        limit: 100,
+      });
+      setProducts(data);
+    };
+    const loadUnits = async () => {
+      const { data } = await client.models.Unit.list({
+        limit: 100,
+      });
+      setUnits(data);
+    };
+    const loadMutations = async () => {
+      const { data } = await client.models.StockMutation.list({
+        limit: 100,
+        filter: {
+          date: {
+            contains: searchQuery,
+          },
+        },
+      });
       setMutations(data);
     };
-    load();
-  }, []);
+    loadMutations();
+    loadShifts();
+    loadProducts();
+    loadUnits();
+    loadLocations();
+    loadMutationTypes();
+  }, [searchQuery]);
+
   return (
     <Card>
       <Flex direction="column" gap="medium">
         <Flex justifyContent="space-between" alignItems="center">
           <Heading level={2}>Stock Mutations</Heading>
-          <Link to={"/stock-mutations/create"}>Create New</Link>
+          <Link to={"/stock-mutation/create"}>Create New</Link>
         </Flex>
 
         <SearchField
+          hasSearchButton={false}
+          hasSearchIcon={true}
           label="Search"
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -47,22 +103,62 @@ export function StockMutationList() {
         <Table highlightOnHover={true} variation="striped">
           <TableHead>
             <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell>Product</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Quantity</TableCell>
-              <TableCell>Type</TableCell>
-              <TableCell>Actions</TableCell>
+              <TableCell>
+                <h2>Locatie</h2>
+              </TableCell>
+              <TableCell>
+                <h2>Datum</h2>
+              </TableCell>
+              <TableCell>
+                <h2>Shift</h2>
+              </TableCell>
+              <TableCell>
+                <h2>Type</h2>
+              </TableCell>
+              <TableCell>
+                <h2>Product</h2>
+              </TableCell>
+              <TableCell>
+                <h2>Hoeveelheid</h2>
+              </TableCell>
+              <TableCell>
+                <h2>Eenheid</h2>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {mutations.map((mutation) => (
-              <TableRow>
-                <TableCell>{mutation.date}</TableCell>
-                <TableCell>{/*  TODO*/}</TableCell>
-                <TableCell>{mutation.location}</TableCell>
-                <TableCell>{mutation.quantity}</TableCell>
-                <TableCell>{/*  TODO*/}</TableCell>
+              <TableRow key={mutation.id}>
+                <TableCell>
+                  {
+                    locations?.find(
+                      (location) => location.id === mutation.locationId
+                    )?.name
+                  }
+                </TableCell>
+                <TableCell>{mutation?.date}</TableCell>
+                <TableCell>
+                  {shifts?.find((shift) => shift.id === mutation.shiftId)?.name}
+                </TableCell>
+                <TableCell>
+                  {
+                    mutationTypes?.find(
+                      (mutationType) =>
+                        mutationType.id === mutation.mutationTypeId
+                    )?.name
+                  }
+                </TableCell>
+                <TableCell>
+                  {
+                    products?.find(
+                      (product) => product.id === mutation.productId
+                    )?.name
+                  }
+                </TableCell>
+                <TableCell>{mutation?.quantity}</TableCell>
+                <TableCell>
+                  {units?.find((unit) => unit.id === mutation.unitId)?.name}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

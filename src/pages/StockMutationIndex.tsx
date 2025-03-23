@@ -1,8 +1,6 @@
-// src/pages/StockMutationPage.tsx
+// src/pages/StockMutationIndex.tsx
 import {
-  Collection,
   Table,
-  Button,
   Heading,
   Flex,
   Card,
@@ -13,7 +11,6 @@ import {
   TableBody,
 } from "@aws-amplify/ui-react";
 import { useEffect, useState } from "react";
-import { StockMutationCreateForm } from "../../ui-components";
 import { Link } from "react-router-dom";
 import { Schema } from "../../amplify/data/resource.ts";
 import { generateClient } from "aws-amplify/data";
@@ -37,7 +34,7 @@ export function StockMutationIndex() {
       <Flex direction="column" gap="medium">
         <Flex justifyContent="space-between" alignItems="center">
           <Heading level={2}>Stock Mutations</Heading>
-          <Link to={"/stock-mutations/create"}>Create New</Link>
+          <Link to={"/stock-mutation/create"}>Create New</Link>
         </Flex>
 
         <SearchField

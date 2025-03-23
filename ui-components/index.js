@@ -12,3 +12,5 @@ export { default as MutationTypeCreateForm } from "./MutationTypeCreateForm";
 export { default as MutationTypeUpdateForm } from "./MutationTypeUpdateForm";
 export { default as StockMutationCreateForm } from "./StockMutationCreateForm";
 export { default as StockMutationUpdateForm } from "./StockMutationUpdateForm";
+export { default as InventoryCreateForm } from "./InventoryCreateForm";
+export { default as InventoryUpdateForm } from "./InventoryUpdateForm";

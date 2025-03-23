@@ -1,6 +1,6 @@
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
-import { StockMutation } from "./graphql/types";
+import { Inventory } from "./graphql/types";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -16,29 +16,29 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type StockMutationUpdateFormInputValues = {
+export declare type InventoryUpdateFormInputValues = {
     date?: string;
     quantity?: number;
 };
-export declare type StockMutationUpdateFormValidationValues = {
+export declare type InventoryUpdateFormValidationValues = {
     date?: ValidationFunction<string>;
     quantity?: ValidationFunction<number>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type StockMutationUpdateFormOverridesProps = {
-    StockMutationUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+export declare type InventoryUpdateFormOverridesProps = {
+    InventoryUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     date?: PrimitiveOverrideProps<TextFieldProps>;
     quantity?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type StockMutationUpdateFormProps = React.PropsWithChildren<{
-    overrides?: StockMutationUpdateFormOverridesProps | undefined | null;
+export declare type InventoryUpdateFormProps = React.PropsWithChildren<{
+    overrides?: InventoryUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    stockMutation?: StockMutation;
-    onSubmit?: (fields: StockMutationUpdateFormInputValues) => StockMutationUpdateFormInputValues;
-    onSuccess?: (fields: StockMutationUpdateFormInputValues) => void;
-    onError?: (fields: StockMutationUpdateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: StockMutationUpdateFormInputValues) => StockMutationUpdateFormInputValues;
-    onValidate?: StockMutationUpdateFormValidationValues;
+    inventory?: Inventory;
+    onSubmit?: (fields: InventoryUpdateFormInputValues) => InventoryUpdateFormInputValues;
+    onSuccess?: (fields: InventoryUpdateFormInputValues) => void;
+    onError?: (fields: InventoryUpdateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: InventoryUpdateFormInputValues) => InventoryUpdateFormInputValues;
+    onValidate?: InventoryUpdateFormValidationValues;
 } & React.CSSProperties>;
-export default function StockMutationUpdateForm(props: StockMutationUpdateFormProps): React.ReactElement;
+export default function InventoryUpdateForm(props: InventoryUpdateFormProps): React.ReactElement;

@@ -107,6 +107,20 @@
                       "delete",
                       "read"
                     ]
+                  },
+                  {
+                    "groupClaim": "cognito:groups",
+                    "provider": "userPools",
+                    "allow": "groups",
+                    "groups": [
+                      "admin"
+                    ],
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -135,6 +149,13 @@
               "isRequired": true,
               "attributes": []
             },
+            "factor": {
+              "name": "factor",
+              "isArray": false,
+              "type": "Float",
+              "isRequired": false,
+              "attributes": []
+            },
             "isDefault": {
               "name": "isDefault",
               "isArray": false,
@@ -147,6 +168,22 @@
               "isArray": true,
               "type": {
                 "model": "StockMutation"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": true,
+              "association": {
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
+                  "unitId"
+                ]
+              }
+            },
+            "inventory": {
+              "name": "inventory",
+              "isArray": true,
+              "type": {
+                "model": "Inventory"
               },
               "isRequired": false,
               "attributes": [],
@@ -204,6 +241,20 @@
                       "create",
                       "read"
                     ]
+                  },
+                  {
+                    "groupClaim": "cognito:groups",
+                    "provider": "userPools",
+                    "allow": "groups",
+                    "groups": [
+                      "admin"
+                    ],
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -255,11 +306,27 @@
                 ]
               }
             },
+            "inventory": {
+              "name": "inventory",
+              "isArray": true,
+              "type": {
+                "model": "Inventory"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": true,
+              "association": {
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
+                  "productId"
+                ]
+              }
+            },
             "omsProductId": {
               "name": "omsProductId",
               "isArray": false,
-              "type": "ID",
-              "isRequired": false,
+              "type": "String",
+              "isRequired": true,
               "attributes": []
             },
             "createdAt": {
@@ -308,6 +375,20 @@
                       "create",
                       "read"
                     ]
+                  },
+                  {
+                    "groupClaim": "cognito:groups",
+                    "provider": "userPools",
+                    "allow": "groups",
+                    "groups": [
+                      "admin"
+                    ],
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -352,17 +433,33 @@
                 ]
               }
             },
+            "inventory": {
+              "name": "inventory",
+              "isArray": true,
+              "type": {
+                "model": "Inventory"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": true,
+              "association": {
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
+                  "shiftId"
+                ]
+              }
+            },
             "startTime": {
               "name": "startTime",
               "isArray": false,
-              "type": "String",
+              "type": "AWSTime",
               "isRequired": true,
               "attributes": []
             },
             "endTime": {
               "name": "endTime",
               "isArray": false,
-              "type": "String",
+              "type": "AWSTime",
               "isRequired": true,
               "attributes": []
             },
@@ -419,6 +516,20 @@
                       "create",
                       "read"
                     ]
+                  },
+                  {
+                    "groupClaim": "cognito:groups",
+                    "provider": "userPools",
+                    "allow": "groups",
+                    "groups": [
+                      "admin"
+                    ],
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -447,11 +558,34 @@
               "isRequired": true,
               "attributes": []
             },
+            "description": {
+              "name": "description",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
             "mutations": {
               "name": "mutations",
               "isArray": true,
               "type": {
                 "model": "StockMutation"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": true,
+              "association": {
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
+                  "mutationTypeId"
+                ]
+              }
+            },
+            "inventory": {
+              "name": "inventory",
+              "isArray": true,
+              "type": {
+                "model": "Inventory"
               },
               "isRequired": false,
               "attributes": [],
@@ -509,6 +643,20 @@
                       "create",
                       "read"
                     ]
+                  },
+                  {
+                    "groupClaim": "cognito:groups",
+                    "provider": "userPools",
+                    "allow": "groups",
+                    "groups": [
+                      "admin"
+                    ],
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -553,17 +701,33 @@
                 ]
               }
             },
+            "inventory": {
+              "name": "inventory",
+              "isArray": true,
+              "type": {
+                "model": "Inventory"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": true,
+              "association": {
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
+                  "locationId"
+                ]
+              }
+            },
             "tamigoDepartmentId": {
               "name": "tamigoDepartmentId",
               "isArray": false,
-              "type": "ID",
+              "type": "String",
               "isRequired": true,
               "attributes": []
             },
             "omsLocationId": {
               "name": "omsLocationId",
               "isArray": false,
-              "type": "ID",
+              "type": "String",
               "isRequired": true,
               "attributes": []
             },
@@ -613,6 +777,20 @@
                       "create",
                       "read"
                     ]
+                  },
+                  {
+                    "groupClaim": "cognito:groups",
+                    "provider": "userPools",
+                    "allow": "groups",
+                    "groups": [
+                      "admin"
+                    ],
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -638,35 +816,35 @@
               "name": "locationId",
               "isArray": false,
               "type": "ID",
-              "isRequired": false,
+              "isRequired": true,
               "attributes": []
             },
             "shiftId": {
               "name": "shiftId",
               "isArray": false,
               "type": "ID",
-              "isRequired": false,
+              "isRequired": true,
               "attributes": []
             },
             "mutationTypeId": {
               "name": "mutationTypeId",
               "isArray": false,
               "type": "ID",
-              "isRequired": false,
+              "isRequired": true,
               "attributes": []
             },
             "productId": {
               "name": "productId",
               "isArray": false,
               "type": "ID",
-              "isRequired": false,
+              "isRequired": true,
               "attributes": []
             },
             "unitId": {
               "name": "unitId",
               "isArray": false,
               "type": "ID",
-              "isRequired": false,
+              "isRequired": true,
               "attributes": []
             },
             "location": {
@@ -721,15 +899,8 @@
                 ]
               }
             },
-            "corrections": {
-              "name": "corrections",
-              "isArray": false,
-              "type": "Boolean",
-              "isRequired": false,
-              "attributes": []
-            },
-            "products": {
-              "name": "products",
+            "product": {
+              "name": "product",
               "isArray": false,
               "type": {
                 "model": "Product"
@@ -809,6 +980,225 @@
                     "allow": "private",
                     "operations": [
                       "create",
+                      "read"
+                    ]
+                  },
+                  {
+                    "groupClaim": "cognito:groups",
+                    "provider": "userPools",
+                    "allow": "groups",
+                    "groups": [
+                      "admin"
+                    ],
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "primaryKeyInfo": {
+            "isCustomPrimaryKey": false,
+            "primaryKeyFieldName": "id",
+            "sortKeyFieldNames": []
+          }
+        },
+        "Inventory": {
+          "name": "Inventory",
+          "fields": {
+            "id": {
+              "name": "id",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": true,
+              "attributes": []
+            },
+            "locationId": {
+              "name": "locationId",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": true,
+              "attributes": []
+            },
+            "shiftId": {
+              "name": "shiftId",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": true,
+              "attributes": []
+            },
+            "mutationTypeId": {
+              "name": "mutationTypeId",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": true,
+              "attributes": []
+            },
+            "productId": {
+              "name": "productId",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": true,
+              "attributes": []
+            },
+            "unitId": {
+              "name": "unitId",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": true,
+              "attributes": []
+            },
+            "location": {
+              "name": "location",
+              "isArray": false,
+              "type": {
+                "model": "Location"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "association": {
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
+                  "locationId"
+                ]
+              }
+            },
+            "date": {
+              "name": "date",
+              "isArray": false,
+              "type": "AWSDate",
+              "isRequired": true,
+              "attributes": []
+            },
+            "shift": {
+              "name": "shift",
+              "isArray": false,
+              "type": {
+                "model": "Shift"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "association": {
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
+                  "shiftId"
+                ]
+              }
+            },
+            "mutationType": {
+              "name": "mutationType",
+              "isArray": false,
+              "type": {
+                "model": "MutationType"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "association": {
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
+                  "mutationTypeId"
+                ]
+              }
+            },
+            "product": {
+              "name": "product",
+              "isArray": false,
+              "type": {
+                "model": "Product"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "association": {
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
+                  "productId"
+                ]
+              }
+            },
+            "quantity": {
+              "name": "quantity",
+              "isArray": false,
+              "type": "Float",
+              "isRequired": true,
+              "attributes": []
+            },
+            "unit": {
+              "name": "unit",
+              "isArray": false,
+              "type": {
+                "model": "Unit"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "association": {
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
+                  "unitId"
+                ]
+              }
+            },
+            "createdAt": {
+              "name": "createdAt",
+              "isArray": false,
+              "type": "AWSDateTime",
+              "isRequired": false,
+              "attributes": [],
+              "isReadOnly": true
+            },
+            "updatedAt": {
+              "name": "updatedAt",
+              "isArray": false,
+              "type": "AWSDateTime",
+              "isRequired": false,
+              "attributes": [],
+              "isReadOnly": true
+            }
+          },
+          "syncable": true,
+          "pluralName": "Inventories",
+          "attributes": [
+            {
+              "type": "model",
+              "properties": {}
+            },
+            {
+              "type": "auth",
+              "properties": {
+                "rules": [
+                  {
+                    "provider": "userPools",
+                    "ownerField": "owner",
+                    "allow": "owner",
+                    "identityClaim": "cognito:username",
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
+                  },
+                  {
+                    "allow": "private",
+                    "operations": [
+                      "create",
+                      "read"
+                    ]
+                  },
+                  {
+                    "groupClaim": "cognito:groups",
+                    "provider": "userPools",
+                    "allow": "groups",
+                    "groups": [
+                      "admin"
+                    ],
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
                       "read"
                     ]
                   }

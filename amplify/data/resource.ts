@@ -13,79 +13,118 @@ const schema = a.schema({
       firstName: a.string().required(),
       lastName: a.string().required(),
     })
-    .authorization((allow) => [allow.owner()]),
+    .authorization((allow) => [allow.owner(), allow.groups(["admin"])]),
   Unit: a // error
     .model({
       name: a.string().required(),
-      isDefault: a.boolean().default(false),
+      factor: a.float(),
+      isDefault: a
+        .boolean()
+        .default(false)
+        .validate((v) => {
+          if (v) {
+            return "Only one unit can be default";
+          }
+        }),
       mutations: a.hasMany("StockMutation", "unitId"),
+      inventory: a.hasMany("Inventory", "unitId"),
     })
     .authorization((allow) => [
       allow.owner(),
       allow.authenticated().to(["create", "read"]),
+      allow.groups(["admin"]),
     ]),
   Product: a
     .model({
       name: a.string().required(),
       density: a.float().required(),
       mutations: a.hasMany("StockMutation", "productId"),
-      omsProductId: a.id(),
+      inventory: a.hasMany("Inventory", "productId"),
+      omsProductId: a.string().required(),
     })
     .authorization((allow) => [
       allow.owner(),
       allow.authenticated().to(["create", "read"]),
+      allow.groups(["admin"]),
     ]),
   Shift: a
     .model({
       name: a.string().required(),
       mutations: a.hasMany("StockMutation", "shiftId"),
-      startTime: a.string().required(),
-      endTime: a.string().required(),
+      inventory: a.hasMany("Inventory", "shiftId"),
+      startTime: a.time().required(),
+      endTime: a.time().required(),
       tamigoShiftId: a.string().required(),
     })
     .authorization((allow) => [
       allow.owner(),
       allow.authenticated().to(["create", "read"]),
+      allow.groups(["admin"]),
     ]),
   MutationType: a
     .model({
       name: a.string().required(),
+      description: a.string(),
       mutations: a.hasMany("StockMutation", "mutationTypeId"),
+      inventory: a.hasMany("Inventory", "mutationTypeId"),
     })
     .authorization((allow) => [
       allow.owner(),
       allow.authenticated().to(["create", "read"]),
+      allow.groups(["admin"]),
     ]),
   Location: a
     .model({
       name: a.string().required(),
       mutations: a.hasMany("StockMutation", "locationId"),
-      tamigoDepartmentId: a.id().required(),
-      omsLocationId: a.id().required(),
+      inventory: a.hasMany("Inventory", "locationId"),
+      tamigoDepartmentId: a.string().required(),
+      omsLocationId: a.string().required(),
     })
     .authorization((allow) => [
       allow.owner(),
       allow.authenticated().to(["create", "read"]),
+      allow.groups(["admin"]),
     ]),
   StockMutation: a
     .model({
-      locationId: a.id(),
-      shiftId: a.id(),
-      mutationTypeId: a.id(),
-      productId: a.id(),
-      unitId: a.id(),
+      locationId: a.id().required(),
+      shiftId: a.id().required(),
+      mutationTypeId: a.id().required(),
+      productId: a.id().required(),
+      unitId: a.id().required(),
       location: a.belongsTo("Location", "locationId"),
       date: a.date().required(),
       shift: a.belongsTo("Shift", "shiftId"),
       mutationType: a.belongsTo("MutationType", "mutationTypeId"),
-      corrections: a.boolean().default(false),
-      products: a.belongsTo("Product", "productId"),
+      product: a.belongsTo("Product", "productId"),
       quantity: a.float().required(),
       unit: a.belongsTo("Unit", "unitId"),
     })
     .authorization((allow) => [
       allow.owner(),
       allow.authenticated().to(["create", "read"]),
+      allow.groups(["admin"]),
+    ]),
+  Inventory: a
+    .model({
+      locationId: a.id().required(),
+      shiftId: a.id().required(),
+      mutationTypeId: a.id().required(),
+      productId: a.id().required(),
+      unitId: a.id().required(),
+      location: a.belongsTo("Location", "locationId"),
+      date: a.date().required(),
+      shift: a.belongsTo("Shift", "shiftId"),
+      mutationType: a.belongsTo("MutationType", "mutationTypeId"),
+      product: a.belongsTo("Product", "productId"),
+      quantity: a.float().required(),
+      unit: a.belongsTo("Unit", "unitId"),
+    })
+    .authorization((allow) => [
+      allow.owner(),
+      allow.authenticated().to(["create", "read"]),
+      allow.groups(["admin"]),
     ]),
 });
 

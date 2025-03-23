@@ -2,6 +2,77 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createInventory = /* GraphQL */ `
+  mutation CreateInventory(
+    $condition: ModelInventoryConditionInput
+    $input: CreateInventoryInput!
+  ) {
+    createInventory(condition: $condition, input: $input) {
+      createdAt
+      date
+      id
+      location {
+        createdAt
+        id
+        name
+        omsLocationId
+        owner
+        tamigoDepartmentId
+        updatedAt
+        __typename
+      }
+      locationId
+      mutationType {
+        createdAt
+        description
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      mutationTypeId
+      owner
+      product {
+        createdAt
+        density
+        id
+        name
+        omsProductId
+        owner
+        updatedAt
+        __typename
+      }
+      productId
+      quantity
+      shift {
+        createdAt
+        endTime
+        id
+        name
+        owner
+        startTime
+        tamigoShiftId
+        updatedAt
+        __typename
+      }
+      shiftId
+      unit {
+        createdAt
+        factor
+        id
+        isDefault
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      unitId
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createLocation = /* GraphQL */ `
   mutation CreateLocation(
     $condition: ModelLocationConditionInput
@@ -10,6 +81,10 @@ export const createLocation = /* GraphQL */ `
     createLocation(condition: $condition, input: $input) {
       createdAt
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -30,7 +105,12 @@ export const createMutationType = /* GraphQL */ `
   ) {
     createMutationType(condition: $condition, input: $input) {
       createdAt
+      description
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -51,6 +131,10 @@ export const createProduct = /* GraphQL */ `
       createdAt
       density
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -72,6 +156,10 @@ export const createShift = /* GraphQL */ `
       createdAt
       endTime
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -91,7 +179,6 @@ export const createStockMutation = /* GraphQL */ `
     $input: CreateStockMutationInput!
   ) {
     createStockMutation(condition: $condition, input: $input) {
-      corrections
       createdAt
       date
       id
@@ -108,6 +195,7 @@ export const createStockMutation = /* GraphQL */ `
       locationId
       mutationType {
         createdAt
+        description
         id
         name
         owner
@@ -116,8 +204,7 @@ export const createStockMutation = /* GraphQL */ `
       }
       mutationTypeId
       owner
-      productId
-      products {
+      product {
         createdAt
         density
         id
@@ -127,6 +214,7 @@ export const createStockMutation = /* GraphQL */ `
         updatedAt
         __typename
       }
+      productId
       quantity
       shift {
         createdAt
@@ -142,6 +230,7 @@ export const createStockMutation = /* GraphQL */ `
       shiftId
       unit {
         createdAt
+        factor
         id
         isDefault
         name
@@ -162,7 +251,12 @@ export const createUnit = /* GraphQL */ `
   ) {
     createUnit(condition: $condition, input: $input) {
       createdAt
+      factor
       id
+      inventory {
+        nextToken
+        __typename
+      }
       isDefault
       mutations {
         nextToken
@@ -192,6 +286,77 @@ export const createUserProfile = /* GraphQL */ `
     }
   }
 `;
+export const deleteInventory = /* GraphQL */ `
+  mutation DeleteInventory(
+    $condition: ModelInventoryConditionInput
+    $input: DeleteInventoryInput!
+  ) {
+    deleteInventory(condition: $condition, input: $input) {
+      createdAt
+      date
+      id
+      location {
+        createdAt
+        id
+        name
+        omsLocationId
+        owner
+        tamigoDepartmentId
+        updatedAt
+        __typename
+      }
+      locationId
+      mutationType {
+        createdAt
+        description
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      mutationTypeId
+      owner
+      product {
+        createdAt
+        density
+        id
+        name
+        omsProductId
+        owner
+        updatedAt
+        __typename
+      }
+      productId
+      quantity
+      shift {
+        createdAt
+        endTime
+        id
+        name
+        owner
+        startTime
+        tamigoShiftId
+        updatedAt
+        __typename
+      }
+      shiftId
+      unit {
+        createdAt
+        factor
+        id
+        isDefault
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      unitId
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const deleteLocation = /* GraphQL */ `
   mutation DeleteLocation(
     $condition: ModelLocationConditionInput
@@ -200,6 +365,10 @@ export const deleteLocation = /* GraphQL */ `
     deleteLocation(condition: $condition, input: $input) {
       createdAt
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -220,7 +389,12 @@ export const deleteMutationType = /* GraphQL */ `
   ) {
     deleteMutationType(condition: $condition, input: $input) {
       createdAt
+      description
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -241,6 +415,10 @@ export const deleteProduct = /* GraphQL */ `
       createdAt
       density
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -262,6 +440,10 @@ export const deleteShift = /* GraphQL */ `
       createdAt
       endTime
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -281,7 +463,6 @@ export const deleteStockMutation = /* GraphQL */ `
     $input: DeleteStockMutationInput!
   ) {
     deleteStockMutation(condition: $condition, input: $input) {
-      corrections
       createdAt
       date
       id
@@ -298,6 +479,7 @@ export const deleteStockMutation = /* GraphQL */ `
       locationId
       mutationType {
         createdAt
+        description
         id
         name
         owner
@@ -306,8 +488,7 @@ export const deleteStockMutation = /* GraphQL */ `
       }
       mutationTypeId
       owner
-      productId
-      products {
+      product {
         createdAt
         density
         id
@@ -317,6 +498,7 @@ export const deleteStockMutation = /* GraphQL */ `
         updatedAt
         __typename
       }
+      productId
       quantity
       shift {
         createdAt
@@ -332,6 +514,7 @@ export const deleteStockMutation = /* GraphQL */ `
       shiftId
       unit {
         createdAt
+        factor
         id
         isDefault
         name
@@ -352,7 +535,12 @@ export const deleteUnit = /* GraphQL */ `
   ) {
     deleteUnit(condition: $condition, input: $input) {
       createdAt
+      factor
       id
+      inventory {
+        nextToken
+        __typename
+      }
       isDefault
       mutations {
         nextToken
@@ -382,6 +570,77 @@ export const deleteUserProfile = /* GraphQL */ `
     }
   }
 `;
+export const updateInventory = /* GraphQL */ `
+  mutation UpdateInventory(
+    $condition: ModelInventoryConditionInput
+    $input: UpdateInventoryInput!
+  ) {
+    updateInventory(condition: $condition, input: $input) {
+      createdAt
+      date
+      id
+      location {
+        createdAt
+        id
+        name
+        omsLocationId
+        owner
+        tamigoDepartmentId
+        updatedAt
+        __typename
+      }
+      locationId
+      mutationType {
+        createdAt
+        description
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      mutationTypeId
+      owner
+      product {
+        createdAt
+        density
+        id
+        name
+        omsProductId
+        owner
+        updatedAt
+        __typename
+      }
+      productId
+      quantity
+      shift {
+        createdAt
+        endTime
+        id
+        name
+        owner
+        startTime
+        tamigoShiftId
+        updatedAt
+        __typename
+      }
+      shiftId
+      unit {
+        createdAt
+        factor
+        id
+        isDefault
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      unitId
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const updateLocation = /* GraphQL */ `
   mutation UpdateLocation(
     $condition: ModelLocationConditionInput
@@ -390,6 +649,10 @@ export const updateLocation = /* GraphQL */ `
     updateLocation(condition: $condition, input: $input) {
       createdAt
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -410,7 +673,12 @@ export const updateMutationType = /* GraphQL */ `
   ) {
     updateMutationType(condition: $condition, input: $input) {
       createdAt
+      description
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -431,6 +699,10 @@ export const updateProduct = /* GraphQL */ `
       createdAt
       density
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -452,6 +724,10 @@ export const updateShift = /* GraphQL */ `
       createdAt
       endTime
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -471,7 +747,6 @@ export const updateStockMutation = /* GraphQL */ `
     $input: UpdateStockMutationInput!
   ) {
     updateStockMutation(condition: $condition, input: $input) {
-      corrections
       createdAt
       date
       id
@@ -488,6 +763,7 @@ export const updateStockMutation = /* GraphQL */ `
       locationId
       mutationType {
         createdAt
+        description
         id
         name
         owner
@@ -496,8 +772,7 @@ export const updateStockMutation = /* GraphQL */ `
       }
       mutationTypeId
       owner
-      productId
-      products {
+      product {
         createdAt
         density
         id
@@ -507,6 +782,7 @@ export const updateStockMutation = /* GraphQL */ `
         updatedAt
         __typename
       }
+      productId
       quantity
       shift {
         createdAt
@@ -522,6 +798,7 @@ export const updateStockMutation = /* GraphQL */ `
       shiftId
       unit {
         createdAt
+        factor
         id
         isDefault
         name
@@ -542,7 +819,12 @@ export const updateUnit = /* GraphQL */ `
   ) {
     updateUnit(condition: $condition, input: $input) {
       createdAt
+      factor
       id
+      inventory {
+        nextToken
+        __typename
+      }
       isDefault
       mutations {
         nextToken

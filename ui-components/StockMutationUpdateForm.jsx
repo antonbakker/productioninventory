@@ -1,13 +1,7 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  SwitchField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { getStockMutation } from "./graphql/queries";
@@ -27,13 +21,9 @@ export default function StockMutationUpdateForm(props) {
   } = props;
   const initialValues = {
     date: "",
-    corrections: false,
     quantity: "",
   };
   const [date, setDate] = React.useState(initialValues.date);
-  const [corrections, setCorrections] = React.useState(
-    initialValues.corrections
-  );
   const [quantity, setQuantity] = React.useState(initialValues.quantity);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -41,7 +31,6 @@ export default function StockMutationUpdateForm(props) {
       ? { ...initialValues, ...stockMutationRecord }
       : initialValues;
     setDate(cleanValues.date);
-    setCorrections(cleanValues.corrections);
     setQuantity(cleanValues.quantity);
     setErrors({});
   };
@@ -65,7 +54,6 @@ export default function StockMutationUpdateForm(props) {
   React.useEffect(resetStateValues, [stockMutationRecord]);
   const validations = {
     date: [{ type: "Required" }],
-    corrections: [],
     quantity: [{ type: "Required" }],
   };
   const runValidationTasks = async (
@@ -95,7 +83,6 @@ export default function StockMutationUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           date,
-          corrections: corrections ?? null,
           quantity,
         };
         const validationResponses = await Promise.all(
@@ -159,7 +146,6 @@ export default function StockMutationUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               date: value,
-              corrections,
               quantity,
             };
             const result = onChange(modelFields);
@@ -175,32 +161,6 @@ export default function StockMutationUpdateForm(props) {
         hasError={errors.date?.hasError}
         {...getOverrideProps(overrides, "date")}
       ></TextField>
-      <SwitchField
-        label="Corrections"
-        defaultChecked={false}
-        isDisabled={false}
-        isChecked={corrections}
-        onChange={(e) => {
-          let value = e.target.checked;
-          if (onChange) {
-            const modelFields = {
-              date,
-              corrections: value,
-              quantity,
-            };
-            const result = onChange(modelFields);
-            value = result?.corrections ?? value;
-          }
-          if (errors.corrections?.hasError) {
-            runValidationTasks("corrections", value);
-          }
-          setCorrections(value);
-        }}
-        onBlur={() => runValidationTasks("corrections", corrections)}
-        errorMessage={errors.corrections?.errorMessage}
-        hasError={errors.corrections?.hasError}
-        {...getOverrideProps(overrides, "corrections")}
-      ></SwitchField>
       <TextField
         label="Quantity"
         isRequired={true}
@@ -215,7 +175,6 @@ export default function StockMutationUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               date,
-              corrections,
               quantity: value,
             };
             const result = onChange(modelFields);

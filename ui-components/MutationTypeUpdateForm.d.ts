@@ -18,14 +18,17 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type MutationTypeUpdateFormInputValues = {
     name?: string;
+    description?: string;
 };
 export declare type MutationTypeUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
+    description?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MutationTypeUpdateFormOverridesProps = {
     MutationTypeUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
+    description?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type MutationTypeUpdateFormProps = React.PropsWithChildren<{
     overrides?: MutationTypeUpdateFormOverridesProps | undefined | null;

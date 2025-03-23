@@ -37,7 +37,7 @@ export default function ProductCreateForm(props) {
   const validations = {
     name: [{ type: "Required" }],
     density: [{ type: "Required" }],
-    omsProductId: [],
+    omsProductId: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -179,7 +179,7 @@ export default function ProductCreateForm(props) {
       ></TextField>
       <TextField
         label="Oms product id"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={omsProductId}
         onChange={(e) => {

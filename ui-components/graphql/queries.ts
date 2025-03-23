@@ -2,11 +2,83 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getInventory = /* GraphQL */ `
+  query GetInventory($id: ID!) {
+    getInventory(id: $id) {
+      createdAt
+      date
+      id
+      location {
+        createdAt
+        id
+        name
+        omsLocationId
+        owner
+        tamigoDepartmentId
+        updatedAt
+        __typename
+      }
+      locationId
+      mutationType {
+        createdAt
+        description
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      mutationTypeId
+      owner
+      product {
+        createdAt
+        density
+        id
+        name
+        omsProductId
+        owner
+        updatedAt
+        __typename
+      }
+      productId
+      quantity
+      shift {
+        createdAt
+        endTime
+        id
+        name
+        owner
+        startTime
+        tamigoShiftId
+        updatedAt
+        __typename
+      }
+      shiftId
+      unit {
+        createdAt
+        factor
+        id
+        isDefault
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      unitId
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const getLocation = /* GraphQL */ `
   query GetLocation($id: ID!) {
     getLocation(id: $id) {
       createdAt
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -24,7 +96,12 @@ export const getMutationType = /* GraphQL */ `
   query GetMutationType($id: ID!) {
     getMutationType(id: $id) {
       createdAt
+      description
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -42,6 +119,10 @@ export const getProduct = /* GraphQL */ `
       createdAt
       density
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -60,6 +141,10 @@ export const getShift = /* GraphQL */ `
       createdAt
       endTime
       id
+      inventory {
+        nextToken
+        __typename
+      }
       mutations {
         nextToken
         __typename
@@ -76,7 +161,6 @@ export const getShift = /* GraphQL */ `
 export const getStockMutation = /* GraphQL */ `
   query GetStockMutation($id: ID!) {
     getStockMutation(id: $id) {
-      corrections
       createdAt
       date
       id
@@ -93,6 +177,7 @@ export const getStockMutation = /* GraphQL */ `
       locationId
       mutationType {
         createdAt
+        description
         id
         name
         owner
@@ -101,8 +186,7 @@ export const getStockMutation = /* GraphQL */ `
       }
       mutationTypeId
       owner
-      productId
-      products {
+      product {
         createdAt
         density
         id
@@ -112,6 +196,7 @@ export const getStockMutation = /* GraphQL */ `
         updatedAt
         __typename
       }
+      productId
       quantity
       shift {
         createdAt
@@ -127,6 +212,7 @@ export const getStockMutation = /* GraphQL */ `
       shiftId
       unit {
         createdAt
+        factor
         id
         isDefault
         name
@@ -144,7 +230,12 @@ export const getUnit = /* GraphQL */ `
   query GetUnit($id: ID!) {
     getUnit(id: $id) {
       createdAt
+      factor
       id
+      inventory {
+        nextToken
+        __typename
+      }
       isDefault
       mutations {
         nextToken
@@ -167,6 +258,32 @@ export const getUserProfile = /* GraphQL */ `
       lastName
       owner
       updatedAt
+      __typename
+    }
+  }
+`;
+export const listInventories = /* GraphQL */ `
+  query ListInventories(
+    $filter: ModelInventoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listInventories(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        createdAt
+        date
+        id
+        locationId
+        mutationTypeId
+        owner
+        productId
+        quantity
+        shiftId
+        unitId
+        updatedAt
+        __typename
+      }
+      nextToken
       __typename
     }
   }
@@ -202,6 +319,7 @@ export const listMutationTypes = /* GraphQL */ `
     listMutationTypes(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         createdAt
+        description
         id
         name
         owner
@@ -266,7 +384,6 @@ export const listStockMutations = /* GraphQL */ `
   ) {
     listStockMutations(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        corrections
         createdAt
         date
         id
@@ -294,6 +411,7 @@ export const listUnits = /* GraphQL */ `
     listUnits(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         createdAt
+        factor
         id
         isDefault
         name

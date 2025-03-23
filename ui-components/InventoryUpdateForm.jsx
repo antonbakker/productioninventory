@@ -1,20 +1,16 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  SwitchField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createUnit } from "./graphql/mutations";
+import { getInventory } from "./graphql/queries";
+import { updateInventory } from "./graphql/mutations";
 const client = generateClient();
-export default function UnitCreateForm(props) {
+export default function InventoryUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    inventory: inventoryModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -24,24 +20,40 @@ export default function UnitCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    name: "",
-    factor: "",
-    isDefault: false,
+    date: "",
+    quantity: "",
   };
-  const [name, setName] = React.useState(initialValues.name);
-  const [factor, setFactor] = React.useState(initialValues.factor);
-  const [isDefault, setIsDefault] = React.useState(initialValues.isDefault);
+  const [date, setDate] = React.useState(initialValues.date);
+  const [quantity, setQuantity] = React.useState(initialValues.quantity);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
-    setFactor(initialValues.factor);
-    setIsDefault(initialValues.isDefault);
+    const cleanValues = inventoryRecord
+      ? { ...initialValues, ...inventoryRecord }
+      : initialValues;
+    setDate(cleanValues.date);
+    setQuantity(cleanValues.quantity);
     setErrors({});
   };
+  const [inventoryRecord, setInventoryRecord] =
+    React.useState(inventoryModelProp);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? (
+            await client.graphql({
+              query: getInventory.replaceAll("__typename", ""),
+              variables: { id: idProp },
+            })
+          )?.data?.getInventory
+        : inventoryModelProp;
+      setInventoryRecord(record);
+    };
+    queryData();
+  }, [idProp, inventoryModelProp]);
+  React.useEffect(resetStateValues, [inventoryRecord]);
   const validations = {
-    name: [{ type: "Required" }],
-    factor: [],
-    isDefault: [],
+    date: [{ type: "Required" }],
+    quantity: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -69,9 +81,8 @@ export default function UnitCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
-          factor,
-          isDefault,
+          date,
+          quantity,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -102,18 +113,16 @@ export default function UnitCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createUnit.replaceAll("__typename", ""),
+            query: updateInventory.replaceAll("__typename", ""),
             variables: {
               input: {
+                id: inventoryRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -122,103 +131,77 @@ export default function UnitCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "UnitCreateForm")}
+      {...getOverrideProps(overrides, "InventoryUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Name"
+        label="Date"
         isRequired={true}
         isReadOnly={false}
-        value={name}
+        type="date"
+        value={date}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name: value,
-              factor,
-              isDefault,
+              date: value,
+              quantity,
             };
             const result = onChange(modelFields);
-            value = result?.name ?? value;
+            value = result?.date ?? value;
           }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
+          if (errors.date?.hasError) {
+            runValidationTasks("date", value);
           }
-          setName(value);
+          setDate(value);
         }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
+        onBlur={() => runValidationTasks("date", date)}
+        errorMessage={errors.date?.errorMessage}
+        hasError={errors.date?.hasError}
+        {...getOverrideProps(overrides, "date")}
       ></TextField>
       <TextField
-        label="Factor"
-        isRequired={false}
+        label="Quantity"
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
-        value={factor}
+        value={quantity}
         onChange={(e) => {
           let value = isNaN(parseFloat(e.target.value))
             ? e.target.value
             : parseFloat(e.target.value);
           if (onChange) {
             const modelFields = {
-              name,
-              factor: value,
-              isDefault,
+              date,
+              quantity: value,
             };
             const result = onChange(modelFields);
-            value = result?.factor ?? value;
+            value = result?.quantity ?? value;
           }
-          if (errors.factor?.hasError) {
-            runValidationTasks("factor", value);
+          if (errors.quantity?.hasError) {
+            runValidationTasks("quantity", value);
           }
-          setFactor(value);
+          setQuantity(value);
         }}
-        onBlur={() => runValidationTasks("factor", factor)}
-        errorMessage={errors.factor?.errorMessage}
-        hasError={errors.factor?.hasError}
-        {...getOverrideProps(overrides, "factor")}
+        onBlur={() => runValidationTasks("quantity", quantity)}
+        errorMessage={errors.quantity?.errorMessage}
+        hasError={errors.quantity?.hasError}
+        {...getOverrideProps(overrides, "quantity")}
       ></TextField>
-      <SwitchField
-        label="Is default"
-        defaultChecked={false}
-        isDisabled={false}
-        isChecked={isDefault}
-        onChange={(e) => {
-          let value = e.target.checked;
-          if (onChange) {
-            const modelFields = {
-              name,
-              factor,
-              isDefault: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.isDefault ?? value;
-          }
-          if (errors.isDefault?.hasError) {
-            runValidationTasks("isDefault", value);
-          }
-          setIsDefault(value);
-        }}
-        onBlur={() => runValidationTasks("isDefault", isDefault)}
-        errorMessage={errors.isDefault?.errorMessage}
-        hasError={errors.isDefault?.hasError}
-        {...getOverrideProps(overrides, "isDefault")}
-      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || inventoryModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -228,7 +211,10 @@ export default function UnitCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || inventoryModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

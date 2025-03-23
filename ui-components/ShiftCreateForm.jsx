@@ -157,6 +157,7 @@ export default function ShiftCreateForm(props) {
         label="Start time"
         isRequired={true}
         isReadOnly={false}
+        type="time"
         value={startTime}
         onChange={(e) => {
           let { value } = e.target;
@@ -184,6 +185,7 @@ export default function ShiftCreateForm(props) {
         label="End time"
         isRequired={true}
         isReadOnly={false}
+        type="time"
         value={endTime}
         onChange={(e) => {
           let { value } = e.target;
