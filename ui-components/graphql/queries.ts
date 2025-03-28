@@ -22,7 +22,9 @@ export const getInventory = /* GraphQL */ `
       mutationType {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -46,6 +48,7 @@ export const getInventory = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -66,6 +69,27 @@ export const getInventory = /* GraphQL */ `
       }
       unitId
       updatedAt
+      __typename
+    }
+  }
+`;
+export const getLanguage = /* GraphQL */ `
+  query GetLanguage($id: ID!) {
+    getLanguage(id: $id) {
+      code
+      createdAt
+      id
+      name
+      owner
+      translations {
+        nextToken
+        __typename
+      }
+      updatedAt
+      userProfiles {
+        nextToken
+        __typename
+      }
       __typename
     }
   }
@@ -97,11 +121,13 @@ export const getMutationType = /* GraphQL */ `
     getMutationType(id: $id) {
       createdAt
       description
+      factor
       id
       inventory {
         nextToken
         __typename
       }
+      isDefault
       mutations {
         nextToken
         __typename
@@ -145,6 +171,7 @@ export const getShift = /* GraphQL */ `
         nextToken
         __typename
       }
+      isDefault
       mutations {
         nextToken
         __typename
@@ -178,7 +205,9 @@ export const getStockMutation = /* GraphQL */ `
       mutationType {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -202,6 +231,7 @@ export const getStockMutation = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -221,6 +251,30 @@ export const getStockMutation = /* GraphQL */ `
         __typename
       }
       unitId
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const getTranslate = /* GraphQL */ `
+  query GetTranslate($id: ID!) {
+    getTranslate(id: $id) {
+      createdAt
+      id
+      key
+      language {
+        code
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      languageId
+      owner
+      phrase
+      translation
       updatedAt
       __typename
     }
@@ -255,6 +309,16 @@ export const getUserProfile = /* GraphQL */ `
       email
       firstName
       id
+      language {
+        code
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      languageId
       lastName
       owner
       updatedAt
@@ -280,6 +344,27 @@ export const listInventories = /* GraphQL */ `
         quantity
         shiftId
         unitId
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listLanguages = /* GraphQL */ `
+  query ListLanguages(
+    $filter: ModelLanguageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLanguages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        code
+        createdAt
+        id
+        name
+        owner
         updatedAt
         __typename
       }
@@ -320,7 +405,9 @@ export const listMutationTypes = /* GraphQL */ `
       items {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -364,6 +451,7 @@ export const listShifts = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -394,6 +482,29 @@ export const listStockMutations = /* GraphQL */ `
         quantity
         shiftId
         unitId
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listTranslates = /* GraphQL */ `
+  query ListTranslates(
+    $filter: ModelTranslateFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTranslates(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        createdAt
+        id
+        key
+        languageId
+        owner
+        phrase
+        translation
         updatedAt
         __typename
       }
@@ -436,6 +547,7 @@ export const listUserProfiles = /* GraphQL */ `
         email
         firstName
         id
+        languageId
         lastName
         owner
         updatedAt

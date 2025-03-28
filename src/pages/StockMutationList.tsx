@@ -38,37 +38,37 @@ export function StockMutationList() {
   useEffect(() => {
     const loadLocations = async () => {
       const { data } = await client.models.Location.list({
-        limit: 100,
+        limit: 20,
       });
       setLocations(data);
     };
     const loadShifts = async () => {
       const { data } = await client.models.Shift.list({
-        limit: 100,
+        limit: 20,
       });
       setShifts(data);
     };
     const loadMutationTypes = async () => {
       const { data } = await client.models.MutationType.list({
-        limit: 100,
+        limit: 20,
       });
       setMutationTypes(data);
     };
     const loadProducts = async () => {
       const { data } = await client.models.Product.list({
-        limit: 100,
+        limit: 20,
       });
       setProducts(data);
     };
     const loadUnits = async () => {
       const { data } = await client.models.Unit.list({
-        limit: 100,
+        limit: 20,
       });
       setUnits(data);
     };
     const loadMutations = async () => {
       const { data } = await client.models.StockMutation.list({
-        limit: 100,
+        limit: 20,
         filter: {
           date: {
             contains: searchQuery,

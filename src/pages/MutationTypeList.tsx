@@ -8,6 +8,7 @@ import {
   TableHead,
   TableRow,
   TableCell,
+  SwitchField,
   TableBody,
 } from "@aws-amplify/ui-react";
 import { useState, useEffect } from "react";
@@ -60,13 +61,24 @@ export function MutationTypeList() {
             <TableRow>
               <TableCell>Mutatietype</TableCell>
               <TableCell>Omschrijving</TableCell>
+              <TableCell>Factor</TableCell>
+              <TableCell>Standaard</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {mutationTypes.map((mutationType) => (
-              <TableRow key={mutationType.id}>
-                <TableCell>{mutationType.name}</TableCell>
-                <TableCell>{mutationType.description}</TableCell>
+              <TableRow key={mutationType?.id}>
+                <TableCell>{mutationType?.name}</TableCell>
+                <TableCell>{mutationType?.description}</TableCell>
+                <TableCell>{mutationType?.factor}</TableCell>
+                <TableCell>
+                  <SwitchField
+                    isChecked={mutationType?.isDefault ?? false}
+                    isDisabled={true}
+                    label=""
+                    labelPosition="start"
+                  />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

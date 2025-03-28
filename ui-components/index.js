@@ -14,3 +14,7 @@ export { default as StockMutationCreateForm } from "./StockMutationCreateForm";
 export { default as StockMutationUpdateForm } from "./StockMutationUpdateForm";
 export { default as InventoryCreateForm } from "./InventoryCreateForm";
 export { default as InventoryUpdateForm } from "./InventoryUpdateForm";
+export { default as LanguageCreateForm } from "./LanguageCreateForm";
+export { default as LanguageUpdateForm } from "./LanguageUpdateForm";
+export { default as TranslateCreateForm } from "./TranslateCreateForm";
+export { default as TranslateUpdateForm } from "./TranslateUpdateForm";

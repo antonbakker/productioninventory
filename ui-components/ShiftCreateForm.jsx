@@ -1,7 +1,13 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SwitchField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { createShift } from "./graphql/mutations";
@@ -19,11 +25,13 @@ export default function ShiftCreateForm(props) {
   } = props;
   const initialValues = {
     name: "",
+    isDefault: false,
     startTime: "",
     endTime: "",
     tamigoShiftId: "",
   };
   const [name, setName] = React.useState(initialValues.name);
+  const [isDefault, setIsDefault] = React.useState(initialValues.isDefault);
   const [startTime, setStartTime] = React.useState(initialValues.startTime);
   const [endTime, setEndTime] = React.useState(initialValues.endTime);
   const [tamigoShiftId, setTamigoShiftId] = React.useState(
@@ -32,6 +40,7 @@ export default function ShiftCreateForm(props) {
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
+    setIsDefault(initialValues.isDefault);
     setStartTime(initialValues.startTime);
     setEndTime(initialValues.endTime);
     setTamigoShiftId(initialValues.tamigoShiftId);
@@ -39,6 +48,7 @@ export default function ShiftCreateForm(props) {
   };
   const validations = {
     name: [{ type: "Required" }],
+    isDefault: [],
     startTime: [{ type: "Required" }],
     endTime: [{ type: "Required" }],
     tamigoShiftId: [{ type: "Required" }],
@@ -70,6 +80,7 @@ export default function ShiftCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
+          isDefault,
           startTime,
           endTime,
           tamigoShiftId,
@@ -136,6 +147,7 @@ export default function ShiftCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
+              isDefault,
               startTime,
               endTime,
               tamigoShiftId,
@@ -153,6 +165,34 @@ export default function ShiftCreateForm(props) {
         hasError={errors.name?.hasError}
         {...getOverrideProps(overrides, "name")}
       ></TextField>
+      <SwitchField
+        label="Is default"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={isDefault}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              name,
+              isDefault: value,
+              startTime,
+              endTime,
+              tamigoShiftId,
+            };
+            const result = onChange(modelFields);
+            value = result?.isDefault ?? value;
+          }
+          if (errors.isDefault?.hasError) {
+            runValidationTasks("isDefault", value);
+          }
+          setIsDefault(value);
+        }}
+        onBlur={() => runValidationTasks("isDefault", isDefault)}
+        errorMessage={errors.isDefault?.errorMessage}
+        hasError={errors.isDefault?.hasError}
+        {...getOverrideProps(overrides, "isDefault")}
+      ></SwitchField>
       <TextField
         label="Start time"
         isRequired={true}
@@ -164,6 +204,7 @@ export default function ShiftCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              isDefault,
               startTime: value,
               endTime,
               tamigoShiftId,
@@ -192,6 +233,7 @@ export default function ShiftCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              isDefault,
               startTime,
               endTime: value,
               tamigoShiftId,
@@ -219,6 +261,7 @@ export default function ShiftCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              isDefault,
               startTime,
               endTime,
               tamigoShiftId: value,

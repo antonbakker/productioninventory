@@ -8,6 +8,7 @@ import {
   TableHead,
   TableRow,
   TableCell,
+  SwitchField,
   TableBody,
 } from "@aws-amplify/ui-react";
 import { useState, useEffect } from "react";
@@ -59,6 +60,7 @@ export function ShiftList() {
               <TableCell>Shift</TableCell>
               <TableCell>Starttijd</TableCell>
               <TableCell>Eindtijd</TableCell>
+              <TableCell>Standaard</TableCell>
               <TableCell>Tamigo Shift ID</TableCell>
             </TableRow>
           </TableHead>
@@ -68,6 +70,14 @@ export function ShiftList() {
                 <TableCell>{shift.name}</TableCell>
                 <TableCell>{shift.startTime}</TableCell>
                 <TableCell>{shift.endTime}</TableCell>
+                <TableCell>
+                  <SwitchField
+                    isChecked={shift.isDefault ?? false}
+                    isDisabled={true}
+                    label=""
+                    labelPosition="start"
+                  />
+                </TableCell>
                 <TableCell>{shift.tamigoShiftId}</TableCell>
               </TableRow>
             ))}

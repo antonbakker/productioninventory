@@ -25,7 +25,9 @@ export const onCreateInventory = /* GraphQL */ `
       mutationType {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -49,6 +51,7 @@ export const onCreateInventory = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -69,6 +72,30 @@ export const onCreateInventory = /* GraphQL */ `
       }
       unitId
       updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateLanguage = /* GraphQL */ `
+  subscription OnCreateLanguage(
+    $filter: ModelSubscriptionLanguageFilterInput
+    $owner: String
+  ) {
+    onCreateLanguage(filter: $filter, owner: $owner) {
+      code
+      createdAt
+      id
+      name
+      owner
+      translations {
+        nextToken
+        __typename
+      }
+      updatedAt
+      userProfiles {
+        nextToken
+        __typename
+      }
       __typename
     }
   }
@@ -106,11 +133,13 @@ export const onCreateMutationType = /* GraphQL */ `
     onCreateMutationType(filter: $filter, owner: $owner) {
       createdAt
       description
+      factor
       id
       inventory {
         nextToken
         __typename
       }
+      isDefault
       mutations {
         nextToken
         __typename
@@ -160,6 +189,7 @@ export const onCreateShift = /* GraphQL */ `
         nextToken
         __typename
       }
+      isDefault
       mutations {
         nextToken
         __typename
@@ -196,7 +226,9 @@ export const onCreateStockMutation = /* GraphQL */ `
       mutationType {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -220,6 +252,7 @@ export const onCreateStockMutation = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -239,6 +272,33 @@ export const onCreateStockMutation = /* GraphQL */ `
         __typename
       }
       unitId
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateTranslate = /* GraphQL */ `
+  subscription OnCreateTranslate(
+    $filter: ModelSubscriptionTranslateFilterInput
+    $owner: String
+  ) {
+    onCreateTranslate(filter: $filter, owner: $owner) {
+      createdAt
+      id
+      key
+      language {
+        code
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      languageId
+      owner
+      phrase
+      translation
       updatedAt
       __typename
     }
@@ -279,6 +339,16 @@ export const onCreateUserProfile = /* GraphQL */ `
       email
       firstName
       id
+      language {
+        code
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      languageId
       lastName
       owner
       updatedAt
@@ -309,7 +379,9 @@ export const onDeleteInventory = /* GraphQL */ `
       mutationType {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -333,6 +405,7 @@ export const onDeleteInventory = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -353,6 +426,30 @@ export const onDeleteInventory = /* GraphQL */ `
       }
       unitId
       updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteLanguage = /* GraphQL */ `
+  subscription OnDeleteLanguage(
+    $filter: ModelSubscriptionLanguageFilterInput
+    $owner: String
+  ) {
+    onDeleteLanguage(filter: $filter, owner: $owner) {
+      code
+      createdAt
+      id
+      name
+      owner
+      translations {
+        nextToken
+        __typename
+      }
+      updatedAt
+      userProfiles {
+        nextToken
+        __typename
+      }
       __typename
     }
   }
@@ -390,11 +487,13 @@ export const onDeleteMutationType = /* GraphQL */ `
     onDeleteMutationType(filter: $filter, owner: $owner) {
       createdAt
       description
+      factor
       id
       inventory {
         nextToken
         __typename
       }
+      isDefault
       mutations {
         nextToken
         __typename
@@ -444,6 +543,7 @@ export const onDeleteShift = /* GraphQL */ `
         nextToken
         __typename
       }
+      isDefault
       mutations {
         nextToken
         __typename
@@ -480,7 +580,9 @@ export const onDeleteStockMutation = /* GraphQL */ `
       mutationType {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -504,6 +606,7 @@ export const onDeleteStockMutation = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -523,6 +626,33 @@ export const onDeleteStockMutation = /* GraphQL */ `
         __typename
       }
       unitId
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteTranslate = /* GraphQL */ `
+  subscription OnDeleteTranslate(
+    $filter: ModelSubscriptionTranslateFilterInput
+    $owner: String
+  ) {
+    onDeleteTranslate(filter: $filter, owner: $owner) {
+      createdAt
+      id
+      key
+      language {
+        code
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      languageId
+      owner
+      phrase
+      translation
       updatedAt
       __typename
     }
@@ -563,6 +693,16 @@ export const onDeleteUserProfile = /* GraphQL */ `
       email
       firstName
       id
+      language {
+        code
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      languageId
       lastName
       owner
       updatedAt
@@ -593,7 +733,9 @@ export const onUpdateInventory = /* GraphQL */ `
       mutationType {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -617,6 +759,7 @@ export const onUpdateInventory = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -637,6 +780,30 @@ export const onUpdateInventory = /* GraphQL */ `
       }
       unitId
       updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateLanguage = /* GraphQL */ `
+  subscription OnUpdateLanguage(
+    $filter: ModelSubscriptionLanguageFilterInput
+    $owner: String
+  ) {
+    onUpdateLanguage(filter: $filter, owner: $owner) {
+      code
+      createdAt
+      id
+      name
+      owner
+      translations {
+        nextToken
+        __typename
+      }
+      updatedAt
+      userProfiles {
+        nextToken
+        __typename
+      }
       __typename
     }
   }
@@ -674,11 +841,13 @@ export const onUpdateMutationType = /* GraphQL */ `
     onUpdateMutationType(filter: $filter, owner: $owner) {
       createdAt
       description
+      factor
       id
       inventory {
         nextToken
         __typename
       }
+      isDefault
       mutations {
         nextToken
         __typename
@@ -728,6 +897,7 @@ export const onUpdateShift = /* GraphQL */ `
         nextToken
         __typename
       }
+      isDefault
       mutations {
         nextToken
         __typename
@@ -764,7 +934,9 @@ export const onUpdateStockMutation = /* GraphQL */ `
       mutationType {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -788,6 +960,7 @@ export const onUpdateStockMutation = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -807,6 +980,33 @@ export const onUpdateStockMutation = /* GraphQL */ `
         __typename
       }
       unitId
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateTranslate = /* GraphQL */ `
+  subscription OnUpdateTranslate(
+    $filter: ModelSubscriptionTranslateFilterInput
+    $owner: String
+  ) {
+    onUpdateTranslate(filter: $filter, owner: $owner) {
+      createdAt
+      id
+      key
+      language {
+        code
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      languageId
+      owner
+      phrase
+      translation
       updatedAt
       __typename
     }
@@ -847,6 +1047,16 @@ export const onUpdateUserProfile = /* GraphQL */ `
       email
       firstName
       id
+      language {
+        code
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      languageId
       lastName
       owner
       updatedAt

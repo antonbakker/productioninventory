@@ -43,31 +43,31 @@ export function StockMutationCreate() {
   useEffect(() => {
     const loadLocations = async () => {
       const { data } = await client.models.Location.list({
-        limit: 100,
+        limit: 20,
       });
       setLocations(data);
     };
     const loadShifts = async () => {
       const { data } = await client.models.Shift.list({
-        limit: 100,
+        limit: 20,
       });
       setShifts(data);
     };
     const loadMutationTypes = async () => {
       const { data } = await client.models.MutationType.list({
-        limit: 100,
+        limit: 20,
       });
       setMutationTypes(data);
     };
     const loadProducts = async () => {
       const { data } = await client.models.Product.list({
-        limit: 100,
+        limit: 20,
       });
       setProducts(data);
     };
     const loadUnits = async () => {
       const { data } = await client.models.Unit.list({
-        limit: 100,
+        limit: 20,
       });
       setUnits(data);
     };
@@ -164,15 +164,19 @@ export function StockMutationCreate() {
                   label={product.id}
                   labelHidden={true}
                 >
-                  {units.map((unit) => (
-                    <option
-                      id={`unit-${product.id}`}
-                      key={`unit-${product.id}`}
-                      value={unit.id}
-                    >
-                      {unit.name}
-                    </option>
-                  ))}
+                  {units
+                    .sort((a, b) =>
+                      a.isDefault === b.isDefault ? 0 : a.isDefault ? -1 : 1
+                    )
+                    .map((unit) => (
+                      <option
+                        id={`unit-${product.id}`}
+                        key={`unit-${product.id}`}
+                        value={unit.id}
+                      >
+                        {unit.name}
+                      </option>
+                    ))}
                 </SelectField>
               </TableCell>
             </TableRow>

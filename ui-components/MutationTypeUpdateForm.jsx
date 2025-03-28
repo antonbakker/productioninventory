@@ -1,7 +1,13 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SwitchField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { getMutationType } from "./graphql/queries";
@@ -22,11 +28,15 @@ export default function MutationTypeUpdateForm(props) {
   const initialValues = {
     name: "",
     description: "",
+    factor: "",
+    isDefault: false,
   };
   const [name, setName] = React.useState(initialValues.name);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
+  const [factor, setFactor] = React.useState(initialValues.factor);
+  const [isDefault, setIsDefault] = React.useState(initialValues.isDefault);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = mutationTypeRecord
@@ -34,6 +44,8 @@ export default function MutationTypeUpdateForm(props) {
       : initialValues;
     setName(cleanValues.name);
     setDescription(cleanValues.description);
+    setFactor(cleanValues.factor);
+    setIsDefault(cleanValues.isDefault);
     setErrors({});
   };
   const [mutationTypeRecord, setMutationTypeRecord] = React.useState(
@@ -57,6 +69,8 @@ export default function MutationTypeUpdateForm(props) {
   const validations = {
     name: [{ type: "Required" }],
     description: [],
+    factor: [],
+    isDefault: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -86,6 +100,8 @@ export default function MutationTypeUpdateForm(props) {
         let modelFields = {
           name,
           description: description ?? null,
+          factor: factor ?? null,
+          isDefault: isDefault ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -148,6 +164,8 @@ export default function MutationTypeUpdateForm(props) {
             const modelFields = {
               name: value,
               description,
+              factor,
+              isDefault,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -173,6 +191,8 @@ export default function MutationTypeUpdateForm(props) {
             const modelFields = {
               name,
               description: value,
+              factor,
+              isDefault,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -187,6 +207,64 @@ export default function MutationTypeUpdateForm(props) {
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
       ></TextField>
+      <TextField
+        label="Factor"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={factor}
+        onChange={(e) => {
+          let value = isNaN(parseFloat(e.target.value))
+            ? e.target.value
+            : parseFloat(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              name,
+              description,
+              factor: value,
+              isDefault,
+            };
+            const result = onChange(modelFields);
+            value = result?.factor ?? value;
+          }
+          if (errors.factor?.hasError) {
+            runValidationTasks("factor", value);
+          }
+          setFactor(value);
+        }}
+        onBlur={() => runValidationTasks("factor", factor)}
+        errorMessage={errors.factor?.errorMessage}
+        hasError={errors.factor?.hasError}
+        {...getOverrideProps(overrides, "factor")}
+      ></TextField>
+      <SwitchField
+        label="Is default"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={isDefault}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              name,
+              description,
+              factor,
+              isDefault: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.isDefault ?? value;
+          }
+          if (errors.isDefault?.hasError) {
+            runValidationTasks("isDefault", value);
+          }
+          setIsDefault(value);
+        }}
+        onBlur={() => runValidationTasks("isDefault", isDefault)}
+        errorMessage={errors.isDefault?.errorMessage}
+        hasError={errors.isDefault?.hasError}
+        {...getOverrideProps(overrides, "isDefault")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

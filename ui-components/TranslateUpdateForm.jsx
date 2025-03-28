@@ -1,20 +1,16 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  SwitchField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createMutationType } from "./graphql/mutations";
+import { getTranslate } from "./graphql/queries";
+import { updateTranslate } from "./graphql/mutations";
 const client = generateClient();
-export default function MutationTypeCreateForm(props) {
+export default function TranslateUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    translate: translateModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -24,30 +20,46 @@ export default function MutationTypeCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    name: "",
-    description: "",
-    factor: "",
-    isDefault: false,
+    phrase: "",
+    translation: "",
+    key: "",
   };
-  const [name, setName] = React.useState(initialValues.name);
-  const [description, setDescription] = React.useState(
-    initialValues.description
+  const [phrase, setPhrase] = React.useState(initialValues.phrase);
+  const [translation, setTranslation] = React.useState(
+    initialValues.translation
   );
-  const [factor, setFactor] = React.useState(initialValues.factor);
-  const [isDefault, setIsDefault] = React.useState(initialValues.isDefault);
+  const [key, setKey] = React.useState(initialValues.key);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
-    setDescription(initialValues.description);
-    setFactor(initialValues.factor);
-    setIsDefault(initialValues.isDefault);
+    const cleanValues = translateRecord
+      ? { ...initialValues, ...translateRecord }
+      : initialValues;
+    setPhrase(cleanValues.phrase);
+    setTranslation(cleanValues.translation);
+    setKey(cleanValues.key);
     setErrors({});
   };
+  const [translateRecord, setTranslateRecord] =
+    React.useState(translateModelProp);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? (
+            await client.graphql({
+              query: getTranslate.replaceAll("__typename", ""),
+              variables: { id: idProp },
+            })
+          )?.data?.getTranslate
+        : translateModelProp;
+      setTranslateRecord(record);
+    };
+    queryData();
+  }, [idProp, translateModelProp]);
+  React.useEffect(resetStateValues, [translateRecord]);
   const validations = {
-    name: [{ type: "Required" }],
-    description: [],
-    factor: [],
-    isDefault: [],
+    phrase: [{ type: "Required" }],
+    translation: [{ type: "Required" }],
+    key: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -75,10 +87,9 @@ export default function MutationTypeCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
-          description,
-          factor,
-          isDefault,
+          phrase,
+          translation,
+          key,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -109,18 +120,16 @@ export default function MutationTypeCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createMutationType.replaceAll("__typename", ""),
+            query: updateTranslate.replaceAll("__typename", ""),
             variables: {
               input: {
+                id: translateRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -129,133 +138,100 @@ export default function MutationTypeCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "MutationTypeCreateForm")}
+      {...getOverrideProps(overrides, "TranslateUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Name"
+        label="Phrase"
         isRequired={true}
         isReadOnly={false}
-        value={name}
+        value={phrase}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name: value,
-              description,
-              factor,
-              isDefault,
+              phrase: value,
+              translation,
+              key,
             };
             const result = onChange(modelFields);
-            value = result?.name ?? value;
+            value = result?.phrase ?? value;
           }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
+          if (errors.phrase?.hasError) {
+            runValidationTasks("phrase", value);
           }
-          setName(value);
+          setPhrase(value);
         }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
+        onBlur={() => runValidationTasks("phrase", phrase)}
+        errorMessage={errors.phrase?.errorMessage}
+        hasError={errors.phrase?.hasError}
+        {...getOverrideProps(overrides, "phrase")}
       ></TextField>
       <TextField
-        label="Description"
-        isRequired={false}
+        label="Translation"
+        isRequired={true}
         isReadOnly={false}
-        value={description}
+        value={translation}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              description: value,
-              factor,
-              isDefault,
+              phrase,
+              translation: value,
+              key,
             };
             const result = onChange(modelFields);
-            value = result?.description ?? value;
+            value = result?.translation ?? value;
           }
-          if (errors.description?.hasError) {
-            runValidationTasks("description", value);
+          if (errors.translation?.hasError) {
+            runValidationTasks("translation", value);
           }
-          setDescription(value);
+          setTranslation(value);
         }}
-        onBlur={() => runValidationTasks("description", description)}
-        errorMessage={errors.description?.errorMessage}
-        hasError={errors.description?.hasError}
-        {...getOverrideProps(overrides, "description")}
+        onBlur={() => runValidationTasks("translation", translation)}
+        errorMessage={errors.translation?.errorMessage}
+        hasError={errors.translation?.hasError}
+        {...getOverrideProps(overrides, "translation")}
       ></TextField>
       <TextField
-        label="Factor"
-        isRequired={false}
+        label="Key"
+        isRequired={true}
         isReadOnly={false}
-        type="number"
-        step="any"
-        value={factor}
+        value={key}
         onChange={(e) => {
-          let value = isNaN(parseFloat(e.target.value))
-            ? e.target.value
-            : parseFloat(e.target.value);
+          let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              description,
-              factor: value,
-              isDefault,
+              phrase,
+              translation,
+              key: value,
             };
             const result = onChange(modelFields);
-            value = result?.factor ?? value;
+            value = result?.key ?? value;
           }
-          if (errors.factor?.hasError) {
-            runValidationTasks("factor", value);
+          if (errors.key?.hasError) {
+            runValidationTasks("key", value);
           }
-          setFactor(value);
+          setKey(value);
         }}
-        onBlur={() => runValidationTasks("factor", factor)}
-        errorMessage={errors.factor?.errorMessage}
-        hasError={errors.factor?.hasError}
-        {...getOverrideProps(overrides, "factor")}
+        onBlur={() => runValidationTasks("key", key)}
+        errorMessage={errors.key?.errorMessage}
+        hasError={errors.key?.hasError}
+        {...getOverrideProps(overrides, "key")}
       ></TextField>
-      <SwitchField
-        label="Is default"
-        defaultChecked={false}
-        isDisabled={false}
-        isChecked={isDefault}
-        onChange={(e) => {
-          let value = e.target.checked;
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              factor,
-              isDefault: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.isDefault ?? value;
-          }
-          if (errors.isDefault?.hasError) {
-            runValidationTasks("isDefault", value);
-          }
-          setIsDefault(value);
-        }}
-        onBlur={() => runValidationTasks("isDefault", isDefault)}
-        errorMessage={errors.isDefault?.errorMessage}
-        hasError={errors.isDefault?.hasError}
-        {...getOverrideProps(overrides, "isDefault")}
-      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || translateModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -265,7 +241,10 @@ export default function MutationTypeCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || translateModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

@@ -67,7 +67,7 @@ const Navigation = () => {
             // width: 300,
             flexDirection: "column",
             color: "white",
-            backgroundColor: "#222222",
+            backgroundColor: "#225C78",
           }}
         >
           <Flex

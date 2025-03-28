@@ -25,7 +25,9 @@ export const createInventory = /* GraphQL */ `
       mutationType {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -49,6 +51,7 @@ export const createInventory = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -69,6 +72,30 @@ export const createInventory = /* GraphQL */ `
       }
       unitId
       updatedAt
+      __typename
+    }
+  }
+`;
+export const createLanguage = /* GraphQL */ `
+  mutation CreateLanguage(
+    $condition: ModelLanguageConditionInput
+    $input: CreateLanguageInput!
+  ) {
+    createLanguage(condition: $condition, input: $input) {
+      code
+      createdAt
+      id
+      name
+      owner
+      translations {
+        nextToken
+        __typename
+      }
+      updatedAt
+      userProfiles {
+        nextToken
+        __typename
+      }
       __typename
     }
   }
@@ -106,11 +133,13 @@ export const createMutationType = /* GraphQL */ `
     createMutationType(condition: $condition, input: $input) {
       createdAt
       description
+      factor
       id
       inventory {
         nextToken
         __typename
       }
+      isDefault
       mutations {
         nextToken
         __typename
@@ -160,6 +189,7 @@ export const createShift = /* GraphQL */ `
         nextToken
         __typename
       }
+      isDefault
       mutations {
         nextToken
         __typename
@@ -196,7 +226,9 @@ export const createStockMutation = /* GraphQL */ `
       mutationType {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -220,6 +252,7 @@ export const createStockMutation = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -239,6 +272,33 @@ export const createStockMutation = /* GraphQL */ `
         __typename
       }
       unitId
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createTranslate = /* GraphQL */ `
+  mutation CreateTranslate(
+    $condition: ModelTranslateConditionInput
+    $input: CreateTranslateInput!
+  ) {
+    createTranslate(condition: $condition, input: $input) {
+      createdAt
+      id
+      key
+      language {
+        code
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      languageId
+      owner
+      phrase
+      translation
       updatedAt
       __typename
     }
@@ -279,6 +339,16 @@ export const createUserProfile = /* GraphQL */ `
       email
       firstName
       id
+      language {
+        code
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      languageId
       lastName
       owner
       updatedAt
@@ -309,7 +379,9 @@ export const deleteInventory = /* GraphQL */ `
       mutationType {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -333,6 +405,7 @@ export const deleteInventory = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -353,6 +426,30 @@ export const deleteInventory = /* GraphQL */ `
       }
       unitId
       updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteLanguage = /* GraphQL */ `
+  mutation DeleteLanguage(
+    $condition: ModelLanguageConditionInput
+    $input: DeleteLanguageInput!
+  ) {
+    deleteLanguage(condition: $condition, input: $input) {
+      code
+      createdAt
+      id
+      name
+      owner
+      translations {
+        nextToken
+        __typename
+      }
+      updatedAt
+      userProfiles {
+        nextToken
+        __typename
+      }
       __typename
     }
   }
@@ -390,11 +487,13 @@ export const deleteMutationType = /* GraphQL */ `
     deleteMutationType(condition: $condition, input: $input) {
       createdAt
       description
+      factor
       id
       inventory {
         nextToken
         __typename
       }
+      isDefault
       mutations {
         nextToken
         __typename
@@ -444,6 +543,7 @@ export const deleteShift = /* GraphQL */ `
         nextToken
         __typename
       }
+      isDefault
       mutations {
         nextToken
         __typename
@@ -480,7 +580,9 @@ export const deleteStockMutation = /* GraphQL */ `
       mutationType {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -504,6 +606,7 @@ export const deleteStockMutation = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -523,6 +626,33 @@ export const deleteStockMutation = /* GraphQL */ `
         __typename
       }
       unitId
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteTranslate = /* GraphQL */ `
+  mutation DeleteTranslate(
+    $condition: ModelTranslateConditionInput
+    $input: DeleteTranslateInput!
+  ) {
+    deleteTranslate(condition: $condition, input: $input) {
+      createdAt
+      id
+      key
+      language {
+        code
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      languageId
+      owner
+      phrase
+      translation
       updatedAt
       __typename
     }
@@ -563,6 +693,16 @@ export const deleteUserProfile = /* GraphQL */ `
       email
       firstName
       id
+      language {
+        code
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      languageId
       lastName
       owner
       updatedAt
@@ -593,7 +733,9 @@ export const updateInventory = /* GraphQL */ `
       mutationType {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -617,6 +759,7 @@ export const updateInventory = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -637,6 +780,30 @@ export const updateInventory = /* GraphQL */ `
       }
       unitId
       updatedAt
+      __typename
+    }
+  }
+`;
+export const updateLanguage = /* GraphQL */ `
+  mutation UpdateLanguage(
+    $condition: ModelLanguageConditionInput
+    $input: UpdateLanguageInput!
+  ) {
+    updateLanguage(condition: $condition, input: $input) {
+      code
+      createdAt
+      id
+      name
+      owner
+      translations {
+        nextToken
+        __typename
+      }
+      updatedAt
+      userProfiles {
+        nextToken
+        __typename
+      }
       __typename
     }
   }
@@ -674,11 +841,13 @@ export const updateMutationType = /* GraphQL */ `
     updateMutationType(condition: $condition, input: $input) {
       createdAt
       description
+      factor
       id
       inventory {
         nextToken
         __typename
       }
+      isDefault
       mutations {
         nextToken
         __typename
@@ -728,6 +897,7 @@ export const updateShift = /* GraphQL */ `
         nextToken
         __typename
       }
+      isDefault
       mutations {
         nextToken
         __typename
@@ -764,7 +934,9 @@ export const updateStockMutation = /* GraphQL */ `
       mutationType {
         createdAt
         description
+        factor
         id
+        isDefault
         name
         owner
         updatedAt
@@ -788,6 +960,7 @@ export const updateStockMutation = /* GraphQL */ `
         createdAt
         endTime
         id
+        isDefault
         name
         owner
         startTime
@@ -807,6 +980,33 @@ export const updateStockMutation = /* GraphQL */ `
         __typename
       }
       unitId
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateTranslate = /* GraphQL */ `
+  mutation UpdateTranslate(
+    $condition: ModelTranslateConditionInput
+    $input: UpdateTranslateInput!
+  ) {
+    updateTranslate(condition: $condition, input: $input) {
+      createdAt
+      id
+      key
+      language {
+        code
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      languageId
+      owner
+      phrase
+      translation
       updatedAt
       __typename
     }
@@ -847,6 +1047,16 @@ export const updateUserProfile = /* GraphQL */ `
       email
       firstName
       id
+      language {
+        code
+        createdAt
+        id
+        name
+        owner
+        updatedAt
+        __typename
+      }
+      languageId
       lastName
       owner
       updatedAt

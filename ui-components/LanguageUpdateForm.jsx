@@ -1,20 +1,16 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  SwitchField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createMutationType } from "./graphql/mutations";
+import { getLanguage } from "./graphql/queries";
+import { updateLanguage } from "./graphql/mutations";
 const client = generateClient();
-export default function MutationTypeCreateForm(props) {
+export default function LanguageUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    language: languageModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -25,29 +21,38 @@ export default function MutationTypeCreateForm(props) {
   } = props;
   const initialValues = {
     name: "",
-    description: "",
-    factor: "",
-    isDefault: false,
+    code: "",
   };
   const [name, setName] = React.useState(initialValues.name);
-  const [description, setDescription] = React.useState(
-    initialValues.description
-  );
-  const [factor, setFactor] = React.useState(initialValues.factor);
-  const [isDefault, setIsDefault] = React.useState(initialValues.isDefault);
+  const [code, setCode] = React.useState(initialValues.code);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
-    setDescription(initialValues.description);
-    setFactor(initialValues.factor);
-    setIsDefault(initialValues.isDefault);
+    const cleanValues = languageRecord
+      ? { ...initialValues, ...languageRecord }
+      : initialValues;
+    setName(cleanValues.name);
+    setCode(cleanValues.code);
     setErrors({});
   };
+  const [languageRecord, setLanguageRecord] = React.useState(languageModelProp);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? (
+            await client.graphql({
+              query: getLanguage.replaceAll("__typename", ""),
+              variables: { id: idProp },
+            })
+          )?.data?.getLanguage
+        : languageModelProp;
+      setLanguageRecord(record);
+    };
+    queryData();
+  }, [idProp, languageModelProp]);
+  React.useEffect(resetStateValues, [languageRecord]);
   const validations = {
     name: [{ type: "Required" }],
-    description: [],
-    factor: [],
-    isDefault: [],
+    code: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -76,9 +81,7 @@ export default function MutationTypeCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
-          description,
-          factor,
-          isDefault,
+          code,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -109,18 +112,16 @@ export default function MutationTypeCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createMutationType.replaceAll("__typename", ""),
+            query: updateLanguage.replaceAll("__typename", ""),
             variables: {
               input: {
+                id: languageRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -129,7 +130,7 @@ export default function MutationTypeCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "MutationTypeCreateForm")}
+      {...getOverrideProps(overrides, "LanguageUpdateForm")}
       {...rest}
     >
       <TextField
@@ -142,9 +143,7 @@ export default function MutationTypeCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
-              description,
-              factor,
-              isDefault,
+              code,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -160,102 +159,43 @@ export default function MutationTypeCreateForm(props) {
         {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
-        label="Description"
-        isRequired={false}
+        label="Code"
+        isRequired={true}
         isReadOnly={false}
-        value={description}
+        value={code}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               name,
-              description: value,
-              factor,
-              isDefault,
+              code: value,
             };
             const result = onChange(modelFields);
-            value = result?.description ?? value;
+            value = result?.code ?? value;
           }
-          if (errors.description?.hasError) {
-            runValidationTasks("description", value);
+          if (errors.code?.hasError) {
+            runValidationTasks("code", value);
           }
-          setDescription(value);
+          setCode(value);
         }}
-        onBlur={() => runValidationTasks("description", description)}
-        errorMessage={errors.description?.errorMessage}
-        hasError={errors.description?.hasError}
-        {...getOverrideProps(overrides, "description")}
+        onBlur={() => runValidationTasks("code", code)}
+        errorMessage={errors.code?.errorMessage}
+        hasError={errors.code?.hasError}
+        {...getOverrideProps(overrides, "code")}
       ></TextField>
-      <TextField
-        label="Factor"
-        isRequired={false}
-        isReadOnly={false}
-        type="number"
-        step="any"
-        value={factor}
-        onChange={(e) => {
-          let value = isNaN(parseFloat(e.target.value))
-            ? e.target.value
-            : parseFloat(e.target.value);
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              factor: value,
-              isDefault,
-            };
-            const result = onChange(modelFields);
-            value = result?.factor ?? value;
-          }
-          if (errors.factor?.hasError) {
-            runValidationTasks("factor", value);
-          }
-          setFactor(value);
-        }}
-        onBlur={() => runValidationTasks("factor", factor)}
-        errorMessage={errors.factor?.errorMessage}
-        hasError={errors.factor?.hasError}
-        {...getOverrideProps(overrides, "factor")}
-      ></TextField>
-      <SwitchField
-        label="Is default"
-        defaultChecked={false}
-        isDisabled={false}
-        isChecked={isDefault}
-        onChange={(e) => {
-          let value = e.target.checked;
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              factor,
-              isDefault: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.isDefault ?? value;
-          }
-          if (errors.isDefault?.hasError) {
-            runValidationTasks("isDefault", value);
-          }
-          setIsDefault(value);
-        }}
-        onBlur={() => runValidationTasks("isDefault", isDefault)}
-        errorMessage={errors.isDefault?.errorMessage}
-        hasError={errors.isDefault?.hasError}
-        {...getOverrideProps(overrides, "isDefault")}
-      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || languageModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -265,7 +205,10 @@ export default function MutationTypeCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || languageModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>
