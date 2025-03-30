@@ -34,66 +34,83 @@ const schema = a
     Role: a
       .model({
         name: a.string().required(),
-        userProfiles: a.hasMany("UserProfile", "roleId"),
+        roleModels: a.hasMany("RoleModel", "roleId"),
       })
       .authorization((allow) => [allow.groups(["root", "admin"])]),
     // Model defines model
-    Model: a
-      .model({
-        name: a.string().required(),
-        roleModels: a.hasMany("RoleModel", "modelId"),
-      })
-      .authorization((allow) => [allow.groups(["admin"])]),
     RoleModel: a
       .model({
         roleId: a.id().required(),
         modelId: a.id().required(),
         role: a.belongsTo("Role", "roleId"),
-        models: a.belongsTo("Model", "modelId"),
-        permissions: a.hasMany("Permission", "roleModelId"),
+        model: a.belongsTo("Model", "modelId"),
+        permissions: a.hasMany("Permission", "permissionId"),
+      })
+      .authorization((allow) => [allow.groups(["root", "admin"])]),
+    RoleModelPermission: a
+      .model({
+        roleModelId: a.id().required(),
+        permissionId: a.id().required(),
+        roleModel: a.belongsTo("RoleModel", "roleModelId"),
+        permission: a.belongsTo("Permission", "permissionId"),
+      })
+      .authorization((allow) => [allow.groups(["root", "admin"])]),
+    Model: a
+      .model({
+        name: a.string().required(),
+        roleModels: a.hasMany("RoleModel", "modelId"),
       })
       .authorization((allow) => [allow.groups(["root", "admin"])]),
     Permission: a
       .model({
-        roleModelId: a.id().required(),
         name: a.string().required(),
-        roleModels: a.hasMany("RoleModel", "roleModelId"),
+        description: a.string(),
+        roleModelPermissions: a.hasMany("RoleModelPermission", "permissionId"),
       })
-      .authorization((allow) => [allow.groups(["admin"])]),
+      .authorization((allow) => [allow.groups(["root"])]),
     UserGroup: a
       .model({
         name: a.string().required(),
-        users: a.hasMany("User", "groupId"),
+        users: a
+          .string()
+          .array()
+          .authorization((allow) => [
+            allow.groups(["root", "admin"]),
+            allow.authenticated().to(["read"]),
+            allow.owner(),
+          ]),
       })
-      .authorization((allow) => [allow.groups(["admin"])]),
-    Country: a
+      .authorization((allow) => [
+        allow.groups(["root", "admin"]),
+        allow.owner(),
+        allow.authenticated().to(["read"]),
+      ]),
+    ZoneInfo: a
       .model({
         name: a.string().required(),
         code: a.string().required(),
-        translations: a.hasMany("Translate", "countryId"),
-        userProfiles: a.hasMany("UserProfile", "countryId"),
       })
       .authorization((allow) => [
         allow.owner(),
-        allow.authenticated().to(["create", "read"]),
+        allow.authenticated().to(["read"]),
         allow.groups(["admin"]),
       ]),
     Locale: a
       .model({
         name: a.string().required(),
         code: a.string().required(),
-        translations: a.hasMany("Translate", "languageId"),
+        translations: a.hasMany("Translate", "localeId"),
       })
       .authorization((allow) => [
         allow.owner(),
-        allow.groups(["root", "admin"]),
+        allow.authenticated().to(["read"]),
+        allow.groups(["admin"]),
       ]),
     Translate: a
       .model({
         localeId: a.id().required(),
         phrase: a.string().required(),
         translation: a.string().required(),
-        key: a.string().required(),
         locale: a.belongsTo("Locale", "localeId"),
       })
       .authorization((allow) => [
@@ -101,31 +118,7 @@ const schema = a
         allow.authenticated().to(["read"]),
         allow.groups(["admin"]),
       ]),
-    UserProfile: a
-      .model({
-        localeId: a.id().required(),
-        countryId: a.id().required(),
-        email: a.string().required(),
-        firstName: a.string().required(),
-        middleName: a.string().required(),
-        lastName: a.string().required(),
-        gender: a.string().required(),
-        timeZone: a.string().required(),
-        profileOwner: a.string().required(),
-        groups: a
-          .string()
-          .array()
-          .required()
-          .default(["user"])
-          .authorization((allow) => [allow.groups(["root", "admin"])]),
-        locale: a.belongsTo("Locale", "localeId"),
-        country: a.belongsTo("Country", "countryId"),
-      })
-      .authorization((allow) => [
-        allow.ownerDefinedIn("profileOwner"),
-        allow.owner(),
-        allow.groups(["admin"]),
-      ]),
+
     Unit: a // error
       .model({
         name: a.string().required(),
@@ -146,10 +139,11 @@ const schema = a
         allow.authenticated().to(["create", "read"]),
         allow.groups(["admin"]),
       ]),
-    ProductMap: a
+    ProductCollection: a
       .model({
+        productId: a.id().required(),
         name: a.string().required(),
-        products: a.hasMany("Product", "productCollectionId"),
+        product: a.belongsTo("Product", "productId"),
         omsProductId: a.string().required(),
       })
       .authorization((allow) => [
@@ -161,7 +155,9 @@ const schema = a
       .model({
         name: a.string().required(),
         density: a.float().required(),
-        productLocations: a.hasMany("ProductLocation", "productId"),
+        productNr: a.string().required(),
+        productCollection: a.hasMany("ProductCollection", "productId"),
+        locations: a.hasMany("ProductLocation", "productId"),
         mutations: a.hasMany("StockMutation", "productId"),
         inventory: a.hasMany("Inventory", "productId"),
       })
@@ -218,7 +214,7 @@ const schema = a
         name: a.string().required(),
         locationId: a.id().required(),
         productId: a.id().required(),
-        products: a.belongsTo("Product", "productId"),
+        product: a.belongsTo("Product", "productId"),
         locations: a.belongsTo("Location", "locationId"),
       })
       .authorization((allow) => [
@@ -228,11 +224,14 @@ const schema = a
       ]),
     Location: a
       .model({
-        productLocations: a.hasMany("ProductLocation", "locationId"),
         name: a.string().required(),
         mutations: a.hasMany("StockMutation", "locationId"),
         inventory: a.hasMany("Inventory", "locationId"),
+        productLocations: a.hasMany("ProductLocation", "locationId"),
+        products: a.hasMany("Product", "locationId"),
+        tamigoDepartment: a.string().required(),
         tamigoDepartmentId: a.string().required(),
+        omsLocation: a.string().required(),
         omsLocationId: a.string().required(),
       })
       .authorization((allow) => [

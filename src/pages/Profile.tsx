@@ -8,10 +8,12 @@ import {
   Image,
   Text,
 } from "@aws-amplify/ui-react";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import { fetchUserAttributes } from "aws-amplify/auth";
+// import { useAuthenticator } from "@aws-amplify/ui-react";
 
-export function Profile() {
-  const { user } = useAuthenticator();
+export async function Profile() {
+  const userAttributes = await fetchUserAttributes();
+  // const { user } = useAuthenticator();
 
   return (
     <Card>
@@ -23,29 +25,59 @@ export function Profile() {
             <Flex direction="column" alignItems="center" gap="medium">
               <Image
                 alt="Profile"
-                src="/default-avatar.png"
+                src={userAttributes?.profilePicture || ""}
                 width="150px"
                 height="150px"
               />
-              <Text>{user?.attributes?.email}</Text>
+              <Text>{userAttributes?.email}</Text>
             </Flex>
           </Card>
 
           <Card flex="1">
             <Flex direction="column" gap="medium">
               <TextField
-                label="Name"
-                value={user?.attributes?.name || ""}
-                isReadOnly
-              />
-              <TextField
                 label="Email"
-                value={user?.attributes?.email || ""}
+                value={userAttributes?.email || ""}
                 isReadOnly
               />
               <TextField
-                label="Phone Number"
-                value={user?.attributes?.phone_number || ""}
+                label="Nickname"
+                value={userAttributes?.nickname || ""}
+                isReadOnly
+              />
+              <TextField
+                label="Gender"
+                value={userAttributes?.gender || ""}
+                isReadOnly
+              />
+              <TextField
+                label="First name"
+                value={userAttributes?.given_name || ""}
+                isReadOnly
+              />
+              <TextField
+                label="Middle name"
+                value={userAttributes?.middle_name || ""}
+                isReadOnly
+              />
+              <TextField
+                label="Sir name"
+                value={userAttributes?.family_name || ""}
+                isReadOnly
+              />
+              <TextField
+                label="Phone number"
+                value={userAttributes?.phone_number || ""}
+                isReadOnly
+              />
+              <TextField
+                label="Locale"
+                value={userAttributes?.locale || ""}
+                isReadOnly
+              />
+              <TextField
+                label="Timezone"
+                value={userAttributes?.zoneinfo || ""}
                 isReadOnly
               />
               <Button variation="primary">Update Profile</Button>
